@@ -118,26 +118,33 @@ The site uses only facts from the supplied company profile. Before launch, pleas
 - **Drafted copy for review**: About page mission and vision, the four-step engagement process,
   the governance paragraph on the Leadership page, the careers culture descriptions and the
   privacy notice (which should be reviewed by counsel against the Nigeria Data Protection Act 2023).
-- **Photography and video**: none has been supplied yet. See "Photography and video" below.
+- **Photography and video**: the site uses licensed stock media (see "Photography and video" below). Genuine company photography can replace it at any time.
 - **Maps**: office links search Google Maps by address; no coordinates are assumed. An embedded
   map can be added once exact locations are verified.
 
 ## Photography and video
 
-Each practice area currently shows an animated, code-drawn illustration
-(`src/components/practice-visual.tsx`): deal structuring, stakeholder networks, transaction
-streams into a secure ledger, and an executive dashboard. They contain no names, figures or
-people, need no licence, and become static for visitors who prefer reduced motion.
+Licensed stock media is configured in `src/content/media.ts` and stored in `public/media/`:
 
-To replace an illustration with a photo or video, put the file in `public/media/` and fill the
-matching slot in `src/content/media.ts` (`homeHeroMedia` for the home page background,
-`practiceMedia` for each practice area). Guidelines:
+| Slot | File | Source (free for commercial use, no attribution required) |
+| --- | --- | --- |
+| Home hero (video) | `home-hero.mp4` | [Mixkit: city at night, aerial](https://mixkit.co/free-stock-video/movement-in-a-city-at-night-in-an-aerial-shot-42343/) (Mixkit Stock Video Free License) |
+| Capital markets | `capital-markets.jpg` | [Unsplash: Benjamin Child](https://unsplash.com/photos/GWe0dlVD9e0) |
+| Strategic & marketing | `strategic-marketing.jpg` | [Unsplash: Weichao Deng](https://unsplash.com/photos/iDlVmSKg_Is) |
+| Infrastructure & technology (video) | `infrastructure-technology.mp4` | [Pexels: Dima Krivoy](https://www.pexels.com/video/blue-colored-cables-1085656/) |
+| Business consulting | `business-consulting.jpg` | [Unsplash: Vitaly Gariev](https://unsplash.com/photos/eb5nX6G1sk0) |
+
+Video posters are frames taken from the videos. Videos load only on screens 768px and wider,
+while visible, for visitors who allow motion and have not enabled data saving; others see the
+poster. If a slot is emptied, the practice area falls back to its animated illustration
+(`src/components/practice-visual.tsx`).
+
+Guidelines when replacing media:
 
 - Stock media is atmospheric only; never present it as a Silgo Meta project, client, office or
-  team member. Keep the source and licence link for every stock file.
-- Images: landscape, at least 2400 px wide for the hero and 1600 px for practice areas.
-- Videos: muted MP4 (H.264), 1080p, 15–30 seconds, ideally under 8 MB, with a poster image.
-  They play only for visitors who allow motion.
+  team member. Record the source and licence of every stock file.
+- Images: landscape, at least 2000 px wide. Videos: muted MP4 (H.264), 720p–1080p, 15–30
+  seconds, ideally under 10 MB, with a poster image.
 
 ## Deployment
 
