@@ -3,51 +3,39 @@ import { officialLogo } from "@/content/brand";
 import { cn } from "@/components/ui";
 
 /**
- * Renders the official logo when configured in src/content/brand.ts.
- * Otherwise renders a TEMPORARY placeholder wordmark — not the company's
- * official logo.
+ * The official "SM" emblem (src/content/brand.ts) beside the company name.
+ * The emblem keeps its original artwork and white background on a white tile,
+ * so it reads the same on the light header and the dark footer.
  */
 export function Logo({ onDark = false, className }: { onDark?: boolean; className?: string }) {
-  if (officialLogo) {
-    const src = onDark && officialLogo.srcOnDark ? officialLogo.srcOnDark : officialLogo.src;
-    return (
-      <Image
-        src={src}
-        width={officialLogo.width}
-        height={officialLogo.height}
-        alt="SILGO META LIMITED"
-        priority
-        className={cn("h-10 w-auto sm:h-11", className)}
-      />
-    );
-  }
-
   return (
-    <span
-      className={cn("inline-flex items-center gap-3", className)}
-      data-placeholder-logo="true"
-      aria-label="SILGO META LIMITED"
-      role="img"
-    >
-      <svg aria-hidden viewBox="0 0 40 40" className="size-9 shrink-0 sm:size-10">
-        <rect width="40" height="40" rx="3" className={onDark ? "fill-white/5" : "fill-navy-900"} />
-        <rect x="0.75" y="0.75" width="38.5" height="38.5" rx="2.5" fill="none" stroke="#B99A5B" strokeWidth="1.5" />
-        <text
-          x="20"
-          y="26.5"
-          textAnchor="middle"
-          fontFamily="Georgia, serif"
-          fontSize="17"
-          fontWeight="700"
-          fill="#B99A5B"
+    <span className={cn("inline-flex items-center gap-3", className)}>
+      {officialLogo ? (
+        <span
+          className={cn(
+            "flex size-11 shrink-0 overflow-hidden rounded-sm bg-white sm:size-12",
+            onDark ? "ring-1 ring-white/10" : "ring-1 ring-line",
+          )}
         >
+          <Image
+            src={onDark && officialLogo.srcOnDark ? officialLogo.srcOnDark : officialLogo.src}
+            width={officialLogo.width}
+            height={officialLogo.height}
+            alt=""
+            priority
+            sizes="48px"
+            className="size-full object-contain"
+          />
+        </span>
+      ) : (
+        <span aria-hidden className="flex size-11 shrink-0 items-center justify-center rounded-sm bg-navy-900 font-serif font-bold text-gold-400 sm:size-12">
           SM
-        </text>
-      </svg>
+        </span>
+      )}
       <span className="flex flex-col leading-none">
         <span
           className={cn(
-            "font-serif text-[1.35rem] font-bold tracking-[0.12em]",
+            "font-serif text-[1.3rem] font-bold tracking-[0.12em] sm:text-[1.35rem]",
             onDark ? "text-white" : "text-navy-900",
           )}
         >
@@ -55,8 +43,8 @@ export function Logo({ onDark = false, className }: { onDark?: boolean; classNam
         </span>
         <span
           className={cn(
-            "mt-1 text-[0.62rem] font-semibold tracking-[0.42em]",
-            onDark ? "text-gold-400" : "text-gold-700",
+            "mt-1 text-[0.7rem] font-semibold tracking-[0.4em]",
+            onDark ? "text-silver-400" : "text-gold-700",
           )}
         >
           LIMITED

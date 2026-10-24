@@ -17,9 +17,9 @@ export function LinePattern({ className }: { className?: string }) {
       preserveAspectRatio="xMidYMid slice"
     >
       {Array.from({ length: 9 }, (_, i) => (
-        <circle key={i} cx="600" cy="0" r={90 + i * 62} stroke="#B99A5B" strokeOpacity={0.22 - i * 0.018} />
+        <circle key={i} cx="600" cy="0" r={90 + i * 62} stroke="#AD7E3A" strokeOpacity={0.26 - i * 0.02} />
       ))}
-      <path d="M0 520 L600 120" stroke="#B99A5B" strokeOpacity="0.12" />
+      <path d="M0 520 L600 120" stroke="#ADAAB5" strokeOpacity="0.14" />
       <path d="M0 600 L600 200" stroke="#ffffff" strokeOpacity="0.05" />
     </svg>
   );

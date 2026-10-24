@@ -83,20 +83,26 @@ Email delivery uses the [Resend](https://resend.com) API. To enable it:
 **Until this is configured, the form does not send messages.** It tells the visitor that online
 sending is not yet enabled and offers a pre-filled email to `info@silgometa.com.ng` instead.
 
-## Official logo
+## Official logo and brand colours
 
-The official logo file has not yet been added. The site currently shows a **temporary typographic
-wordmark** (`src/components/logo.tsx`), and a temporary "SM" monogram is used for the favicon
-(`src/app/icon.svg`) and the social-sharing image (`src/app/opengraph-image.tsx`).
+The official logo is the "SM" emblem (grey lettering, compass and rising arrow, gold bar chart).
+The artwork contains no company name, so the site sets "SILGO META LIMITED" in type beside it
+(`src/components/logo.tsx`).
 
-To install the official logo:
+| File                                   | Use                                                                 |
+| -------------------------------------- | ------------------------------------------------------------------- |
+| `public/images/silgo-meta-logo.jpg`    | Original file as supplied (1536×1534), kept unaltered.              |
+| `public/images/silgo-meta-emblem.png`  | Web version: same artwork, white margin and faint edge line trimmed. Used in header and footer. |
+| `src/app/icon.png`, `apple-icon.png`   | Browser and home-screen icons derived from the emblem.              |
+| `src/app/opengraph-image.tsx`          | Social-sharing image featuring the emblem.                          |
 
-1. Save the original file as `public/images/silgo-meta-logo.jpg` (a transparent PNG or SVG is better if available).
-2. In `src/content/brand.ts`, set `officialLogo` with the file's real pixel `width` and `height`.
-   Add `srcOnDark` if a reversed version exists for the dark footer.
-3. Once usage rights are confirmed, replace `src/app/icon.svg` and update the OG image with logo-derived assets.
+The logo is shown on a white tile (its own background) so it reads correctly on both the light
+header and the dark footer. If a transparent PNG/SVG or a reversed version is supplied later,
+update `src/content/brand.ts`. Do not recolour or redraw the logo without authorization.
 
-Do not recolour, redraw or crop the official logo without authorization.
+Site colours are derived from the logo: gold `#AD7E3A` and grey `#ADAAB5`, complemented by deep
+navy `#10243A` and warm white `#FAF9F6`. Accessible text shades are defined in
+`src/app/globals.css` (`gold-700` on light backgrounds, `gold-400` on navy).
 
 ## Content requiring client confirmation
 

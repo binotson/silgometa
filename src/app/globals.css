@@ -2,8 +2,9 @@
 
 /*
  * Silgo Meta design tokens.
- * Palette complements the official logo's grey and gold. Navy, warm white,
- * muted gold and neutral greys carry the identity; emerald is used sparingly.
+ * Gold and silver are taken from the official logo (gold #AD7E3A,
+ * grey #ADAAB5). Navy, warm white and neutral greys complement them;
+ * emerald is used sparingly.
  */
 @theme {
   --color-navy-950: #0a1726;
@@ -11,11 +12,16 @@
   --color-navy-800: #1a3350;
   --color-navy-700: #26446a;
 
-  --color-gold-300: #d9c59a;
-  --color-gold-400: #c9ad74;
-  --color-gold-500: #b99a5b;
+  --color-gold-300: #dcc29a;
+  /* Lighter gold for text on navy (WCAG AA contrast). */
+  --color-gold-400: #c8a064;
+  /* Logo gold: accents, rules and the gold button. Not for small text on light backgrounds. */
+  --color-gold-500: #ad7e3a;
   /* Darker gold for text on light backgrounds (WCAG AA contrast). */
-  --color-gold-700: #7a6131;
+  --color-gold-700: #7a5a26;
+
+  /* Logo grey. */
+  --color-silver-400: #adaab5;
 
   --color-emerald-700: #176b55;
 
