@@ -118,10 +118,26 @@ The site uses only facts from the supplied company profile. Before launch, pleas
 - **Drafted copy for review**: About page mission and vision, the four-step engagement process,
   the governance paragraph on the Leadership page, the careers culture descriptions and the
   privacy notice (which should be reviewed by counsel against the Nigeria Data Protection Act 2023).
-- **Photography**: no photographs were supplied, so the design uses abstract graphics. Licensed
-  or genuine company photography can be added later.
+- **Photography and video**: none has been supplied yet. See "Photography and video" below.
 - **Maps**: office links search Google Maps by address; no coordinates are assumed. An embedded
   map can be added once exact locations are verified.
+
+## Photography and video
+
+Each practice area currently shows an animated, code-drawn illustration
+(`src/components/practice-visual.tsx`): deal structuring, stakeholder networks, transaction
+streams into a secure ledger, and an executive dashboard. They contain no names, figures or
+people, need no licence, and become static for visitors who prefer reduced motion.
+
+To replace an illustration with a photo or video, put the file in `public/media/` and fill the
+matching slot in `src/content/media.ts` (`homeHeroMedia` for the home page background,
+`practiceMedia` for each practice area). Guidelines:
+
+- Stock media is atmospheric only; never present it as a Silgo Meta project, client, office or
+  team member. Keep the source and licence link for every stock file.
+- Images: landscape, at least 2400 px wide for the hero and 1600 px for practice areas.
+- Videos: muted MP4 (H.264), 1080p, 15–30 seconds, ideally under 8 MB, with a poster image.
+  They play only for visitors who allow motion.
 
 ## Deployment
 

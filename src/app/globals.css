@@ -92,6 +92,129 @@ body {
   }
 }
 
+/*
+ * Practice-area illustrations (src/components/practice-visual.tsx).
+ * Animations apply only when motion is allowed; otherwise every element
+ * shows its finished, static state.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .viz-draw {
+    stroke-dasharray: 100;
+    animation: viz-draw 9s cubic-bezier(0.3, 0.6, 0.2, 1) infinite both;
+  }
+  .viz-grow-y,
+  .viz-grow-x {
+    transform-box: fill-box;
+    animation: viz-grow-y 9s cubic-bezier(0.2, 0.7, 0.2, 1) infinite both;
+  }
+  .viz-grow-y {
+    transform-origin: bottom;
+  }
+  .viz-grow-x {
+    transform-origin: left;
+    animation-name: viz-grow-x;
+  }
+  .viz-pulse {
+    stroke-dasharray: 8 92;
+    animation: viz-pulse 3.6s linear infinite;
+  }
+  .viz-spin {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: viz-spin 60s linear infinite;
+  }
+  .viz-blink {
+    animation: viz-blink 3.2s ease-in-out infinite;
+  }
+  .viz-row {
+    animation: viz-row 6s ease-in-out infinite;
+  }
+  .viz-ring {
+    animation: viz-ring 9s cubic-bezier(0.3, 0.6, 0.2, 1) infinite both;
+  }
+  .viz-fade {
+    animation: viz-fade 9s ease-out infinite both;
+  }
+}
+
+@keyframes viz-draw {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  30%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes viz-grow-y {
+  0% {
+    transform: scaleY(0);
+  }
+  22%,
+  100% {
+    transform: none;
+  }
+}
+@keyframes viz-grow-x {
+  0% {
+    transform: scaleX(0);
+  }
+  22%,
+  100% {
+    transform: none;
+  }
+}
+@keyframes viz-pulse {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes viz-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes viz-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+@keyframes viz-row {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+@keyframes viz-ring {
+  0% {
+    stroke-dashoffset: 72;
+  }
+  30%,
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes viz-fade {
+  0%,
+  10% {
+    opacity: 0;
+  }
+  35%,
+  100% {
+    opacity: 1;
+  }
+}
+
 /* Long-form reading styles for insight outlines and policy pages. */
 .prose-silgo {
   font-size: 1.0625rem;

@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { PracticeMedia, SlotMedia } from "@/components/media";
 import { CtaBand, InsightCard, LeaderCard, LinePattern, ProjectCard, ValuesSection } from "@/components/sections";
 import { ButtonLink, Container, Eyebrow, Section, SectionHeading, TextLink } from "@/components/ui";
 import { insights } from "@/content/insights";
+import { homeHeroMedia } from "@/content/media";
 import { projects } from "@/content/projects";
 import { services } from "@/content/services";
 import { company, engagementSteps, leaders } from "@/content/site";
@@ -18,7 +20,14 @@ export default function HomePage() {
   return (
     <>
       <section className="relative overflow-hidden bg-navy-900 text-white">
-        <LinePattern className="top-0 right-0 h-full w-full max-w-4xl" />
+        {homeHeroMedia ? (
+          <div aria-hidden className="absolute inset-0">
+            <SlotMedia slot={homeHeroMedia} sizes="100vw" preload />
+            <div className="absolute inset-0 bg-linear-to-r from-navy-950/90 via-navy-950/75 to-navy-950/55" />
+          </div>
+        ) : (
+          <LinePattern className="top-0 right-0 h-full w-full max-w-4xl" />
+        )}
         <Container className="relative grid gap-14 py-16 sm:py-20 lg:grid-cols-12 lg:gap-10 lg:py-20 xl:py-24">
           <div className="lg:col-span-7">
             <Eyebrow onDark>Strategic advisory · Nigeria</Eyebrow>
@@ -94,31 +103,41 @@ export default function HomePage() {
             </TextLink>
           </div>
 
-          <div className="mt-14 divide-y divide-line border-y border-line">
+          <div className="mt-14 grid gap-6 md:grid-cols-2">
             {services.map((s) => (
-              <article key={s.slug} className="reveal grid gap-6 py-10 lg:grid-cols-12 lg:gap-10">
-                <p aria-hidden className="font-serif text-4xl font-semibold text-gold-500 lg:col-span-1">
-                  {s.number}
-                </p>
-                <div className="lg:col-span-5">
-                  <h3 className="font-serif text-2xl leading-snug font-semibold text-navy-900 sm:text-[1.75rem]">
-                    {s.title}
+              <article
+                key={s.slug}
+                className="reveal group relative flex flex-col overflow-hidden rounded-sm border border-line bg-white transition-shadow duration-300 hover:shadow-[0_18px_40px_-24px_rgba(16,36,58,0.35)]"
+              >
+                <PracticeMedia
+                  slug={s.slug}
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  bare
+                  className="aspect-[16/8]"
+                />
+                <div className="flex flex-1 flex-col p-7 sm:p-8">
+                  <p className="font-serif text-lg font-semibold text-gold-700">{s.number}</p>
+                  <h3 className="mt-2 font-serif text-2xl leading-snug font-semibold text-navy-900">
+                    <Link href={`/services/${s.slug}`} className="after:absolute after:inset-0 after:content-['']">
+                      {s.title}
+                    </Link>
                   </h3>
-                  <p className="mt-4 text-base leading-relaxed text-slate sm:text-lg">{s.summary}</p>
-                  <TextLink href={`/services/${s.slug}`} className="mt-6">
-                    <span>
-                      Explore <span className="sr-only">{s.title}</span>
-                    </span>
-                  </TextLink>
+                  <p className="mt-3 text-base leading-relaxed text-slate">{s.summary}</p>
+                  <ul className="mt-5 flex flex-wrap gap-2" aria-label={`Selected ${s.shortTitle} services`}>
+                    {s.offerings.slice(0, 3).map((o) => (
+                      <li key={o.name} className="rounded-full bg-mist px-3 py-1 text-sm text-navy-800">
+                        {o.name}
+                      </li>
+                    ))}
+                  </ul>
+                  <span className="mt-auto flex items-center gap-2 pt-6 text-base font-semibold text-navy-900">
+                    Explore practice area
+                    <ArrowRight
+                      aria-hidden
+                      className="size-4 text-gold-700 transition-transform duration-200 group-hover:translate-x-1"
+                    />
+                  </span>
                 </div>
-                <ul className="grid content-start gap-x-8 gap-y-3 text-base text-navy-800 sm:grid-cols-2 lg:col-span-6">
-                  {s.offerings.slice(0, 6).map((o) => (
-                    <li key={o.name} className="flex gap-3">
-                      <span aria-hidden className="mt-2.5 h-px w-3 shrink-0 bg-gold-500" />
-                      {o.name}
-                    </li>
-                  ))}
-                </ul>
               </article>
             ))}
           </div>

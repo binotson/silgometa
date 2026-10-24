@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Info } from "lucide-react";
+import { PracticeMedia } from "@/components/media";
 import { CtaBand, PageHero, ProjectCard } from "@/components/sections";
 import { ButtonLink, Container, Section, SectionHeading } from "@/components/ui";
 import { pageMetadata } from "@/lib/metadata";
@@ -42,6 +43,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
           { href: "/services", label: "Services" },
           { href: `/services/${service.slug}`, label: service.shortTitle },
         ]}
+        media={<PracticeMedia slug={service.slug} preload onDark className="aspect-[16/10]" />}
       >
         <div className="mt-10">
           <ButtonLink href="/contact" variant="gold" arrow>

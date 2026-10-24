@@ -1,3 +1,4 @@
+import { PracticeMedia } from "@/components/media";
 import { CtaBand, PageHero } from "@/components/sections";
 import { Container, Section, TextLink } from "@/components/ui";
 import { pageMetadata } from "@/lib/metadata";
@@ -47,6 +48,7 @@ export default function ServicesPage() {
                   </TextLink>
                 </div>
                 <div className="lg:col-span-7">
+                  <PracticeMedia slug={s.slug} className="mb-8 aspect-[16/7]" />
                   <h3 className="text-sm font-semibold tracking-[0.14em] text-muted uppercase">Services include</h3>
                   <ul className="mt-5 grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
                     {s.offerings.map((o) => (

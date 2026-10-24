@@ -30,43 +30,59 @@ export function PageHero({
   title,
   intro,
   breadcrumbs,
+  media,
   children,
 }: {
   eyebrow: string;
   title: ReactNode;
   intro?: ReactNode;
   breadcrumbs?: { href: string; label: string }[];
+  /** Optional visual shown beside the text on large screens. */
+  media?: ReactNode;
   children?: ReactNode;
 }) {
   return (
     <section className="relative overflow-hidden bg-navy-900 text-white">
       <LinePattern className="top-0 right-0 h-full w-full max-w-3xl opacity-80" />
-      <Container className="relative py-16 sm:py-20 lg:py-24">
-        {breadcrumbs && (
-          <nav aria-label="Breadcrumb" className="mb-8">
-            <ol className="flex flex-wrap items-center gap-2 text-sm text-white/60">
-              <li>
-                <Link href="/" className="hover:text-white">
-                  Home
-                </Link>
-              </li>
-              {breadcrumbs.map((b) => (
-                <li key={b.href} className="flex items-center gap-2">
-                  <span aria-hidden>/</span>
-                  <Link href={b.href} className="hover:text-white">
-                    {b.label}
+      <Container
+        className={cn(
+          "relative py-16 sm:py-20 lg:py-24",
+          media ? "grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-10" : undefined,
+        )}
+      >
+        <div className={media ? "lg:col-span-7" : undefined}>
+          {breadcrumbs && (
+            <nav aria-label="Breadcrumb" className="mb-8">
+              <ol className="flex flex-wrap items-center gap-2 text-sm text-white/60">
+                <li>
+                  <Link href="/" className="hover:text-white">
+                    Home
                   </Link>
                 </li>
-              ))}
-            </ol>
-          </nav>
-        )}
-        <Eyebrow onDark>{eyebrow}</Eyebrow>
-        <h1 className="mt-5 max-w-4xl font-serif text-4xl leading-[1.1] font-semibold text-balance sm:text-5xl lg:text-6xl">
-          {title}
-        </h1>
-        {intro && <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/75 sm:text-xl">{intro}</p>}
-        {children}
+                {breadcrumbs.map((b) => (
+                  <li key={b.href} className="flex items-center gap-2">
+                    <span aria-hidden>/</span>
+                    <Link href={b.href} className="hover:text-white">
+                      {b.label}
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )}
+          <Eyebrow onDark>{eyebrow}</Eyebrow>
+          <h1
+            className={cn(
+              "mt-5 max-w-4xl font-serif text-4xl leading-[1.1] font-semibold text-balance sm:text-5xl",
+              media ? "xl:text-[3.5rem]" : "lg:text-6xl",
+            )}
+          >
+            {title}
+          </h1>
+          {intro && <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/75 sm:text-xl">{intro}</p>}
+          {children}
+        </div>
+        {media && <div className="lg:col-span-5">{media}</div>}
       </Container>
     </section>
   );
