@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+/*
+ * Silgo Meta design tokens.
+ * Palette complements the official logo's grey and gold. Navy, warm white,
+ * muted gold and neutral greys carry the identity; emerald is used sparingly.
+ */
+@theme {
+  --color-navy-950: #0a1726;
+  --color-navy-900: #10243a;
+  --color-navy-800: #1a3350;
+  --color-navy-700: #26446a;
+
+  --color-gold-300: #d9c59a;
+  --color-gold-400: #c9ad74;
+  --color-gold-500: #b99a5b;
+  /* Darker gold for text on light backgrounds (WCAG AA contrast). */
+  --color-gold-700: #7a6131;
+
+  --color-emerald-700: #176b55;
+
+  --color-ink: #1d2733;
+  --color-slate: #344054;
+  --color-muted: #5b6573;
+  --color-line: #dfe3e8;
+  --color-mist: #f1f3f5;
+  --color-paper: #faf9f6;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-source-serif), ui-serif, Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-slate);
+}
+
+::selection {
+  background: var(--color-gold-300);
+  color: var(--color-navy-900);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold-500);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Lightweight scroll reveal: CSS-only, progressive, motion-safe. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Long-form reading styles for insight outlines and policy pages. */
+.prose-silgo {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-slate);
+}
+.prose-silgo h2 {
+  font-family: var(--font-serif);
+  color: var(--color-navy-900);
+  font-size: 1.625rem;
+  line-height: 1.25;
+  font-weight: 600;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+.prose-silgo h3 {
+  color: var(--color-navy-900);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.prose-silgo p + p {
+  margin-top: 1rem;
+}
+.prose-silgo ul {
+  margin-top: 0.75rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.prose-silgo li + li {
+  margin-top: 0.4rem;
+}
+.prose-silgo li::marker {
+  color: var(--color-gold-500);
+}
+.prose-silgo a {
+  color: var(--color-navy-800);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-gold-500);
+}
