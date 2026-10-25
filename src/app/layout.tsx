@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Source_Serif_4 } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { themeScript } from "@/lib/theme";
 import { allowIndexing, company, contact, offices, siteUrl } from "@/content/site";
 import "./globals.css";
 
@@ -33,7 +34,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#10243A",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#10243A" },
+    { media: "(prefers-color-scheme: dark)", color: "#0B1522" },
+  ],
 };
 
 const organizationJsonLd = {
@@ -56,7 +60,10 @@ const organizationJsonLd = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-NG" className={`${inter.variable} ${sourceSerif.variable} antialiased`}>
+    <html lang="en-NG" className={`${inter.variable} ${sourceSerif.variable} antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="flex min-h-screen flex-col font-sans text-base">
         <script
           type="application/ld+json"

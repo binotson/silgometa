@@ -32,11 +32,52 @@
   --color-mist: #f1f3f5;
   --color-paper: #faf9f6;
 
+  /* Role tokens: these swap with the theme, the brand scale above mostly does not. */
+  --color-surface: #ffffff;
+  --color-inverse: #10243a;
+  --color-inverse-hover: #1a3350;
+  --color-primary: #10243a;
+  --color-primary-hover: #1a3350;
+  --color-on-primary: #ffffff;
+
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-source-serif), ui-serif, Georgia, serif;
 }
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+ * Dark theme. Set on <html data-theme="dark"> by the inline script in
+ * layout.tsx and by ThemeToggle. navy-900/800 are used as heading text on
+ * light surfaces, so they flip to light tints here; dark bands use
+ * `inverse` instead. navy-950 stays dark (text on gold, footer).
+ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-navy-900: #eef2f6;
+  --color-navy-800: #d6dee8;
+  --color-navy-700: #b9c6d6;
+  --color-gold-700: #d2ac72;
+  --color-emerald-700: #4fbf9a;
+
+  --color-ink: #e8edf3;
+  --color-slate: #c2cad5;
+  --color-muted: #98a3b3;
+  --color-line: #26374c;
+  --color-mist: #15263a;
+  --color-paper: #0b1522;
+
+  --color-surface: #101e2f;
+  --color-inverse: #132a45;
+  --color-inverse-hover: #1e3a5c;
+  --color-primary: #ad7e3a;
+  --color-primary-hover: #c8a064;
+  --color-on-primary: #0a1726;
+}
+
 html {
+  color-scheme: light;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
@@ -48,7 +89,7 @@ body {
 
 ::selection {
   background: var(--color-gold-300);
-  color: var(--color-navy-900);
+  color: var(--color-navy-950);
 }
 
 :focus-visible {

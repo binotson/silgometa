@@ -28,7 +28,7 @@ export function Logo({ onDark = false, className }: { onDark?: boolean; classNam
           />
         </span>
       ) : (
-        <span aria-hidden className="flex size-11 shrink-0 items-center justify-center rounded-sm bg-navy-900 font-serif font-bold text-gold-400 sm:size-12">
+        <span aria-hidden className="flex size-11 shrink-0 items-center justify-center rounded-sm bg-inverse font-serif font-bold text-gold-400 sm:size-12">
           SM
         </span>
       )}

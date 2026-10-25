@@ -77,7 +77,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
           />
           <dl className="mt-12 grid gap-px overflow-hidden rounded-sm border border-line bg-line md:grid-cols-2 lg:grid-cols-3">
             {service.offerings.map((o) => (
-              <div key={o.name} className="reveal bg-white p-7">
+              <div key={o.name} className="reveal bg-surface p-7">
                 <dt className="text-lg font-semibold text-navy-900">{o.name}</dt>
                 <dd className="mt-3 text-base leading-relaxed text-slate">{o.description}</dd>
               </div>

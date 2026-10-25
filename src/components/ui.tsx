@@ -27,9 +27,9 @@ export function Section({
 }) {
   const tones = {
     paper: "bg-paper",
-    white: "bg-white",
+    white: "bg-surface",
     mist: "bg-mist",
-    navy: "bg-navy-900 text-white/80",
+    navy: "bg-inverse text-white/80",
   };
   return (
     <section id={id} aria-labelledby={labelledBy} className={cn(padding, tones[tone], className)}>
@@ -89,9 +89,9 @@ export function SectionHeading({
 type ButtonVariant = "primary" | "secondary" | "ghost-light" | "gold";
 
 const buttonStyles: Record<ButtonVariant, string> = {
-  primary: "bg-navy-900 text-white hover:bg-navy-800",
+  primary: "bg-primary text-on-primary hover:bg-primary-hover",
   gold: "bg-gold-500 text-navy-950 hover:bg-gold-400",
-  secondary: "border border-navy-900/20 text-navy-900 hover:border-navy-900 hover:bg-white",
+  secondary: "border border-navy-900/20 text-navy-900 hover:border-navy-900 hover:bg-surface",
   "ghost-light": "border border-white/30 text-white hover:border-white hover:bg-white/5",
 };
 

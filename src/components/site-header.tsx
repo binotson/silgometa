@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/logo";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/components/ui";
 import { contact, mainNav } from "@/content/site";
 
@@ -52,7 +53,7 @@ export function SiteHeader() {
       <header className="sticky top-0 z-50 border-b border-line bg-paper/95 backdrop-blur supports-[backdrop-filter]:bg-paper/85">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-sm focus:bg-navy-900 focus:px-4 focus:py-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-sm focus:bg-inverse focus:px-4 focus:py-2 focus:text-white"
         >
           Skip to main content
         </a>
@@ -91,9 +92,10 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <Link
               href="/contact"
-              className="hidden min-h-11 items-center rounded-sm bg-navy-900 px-5 text-[0.95rem] font-semibold text-white transition-colors hover:bg-navy-800 sm:inline-flex"
+              className="hidden min-h-11 items-center rounded-sm bg-primary px-5 text-[0.95rem] font-semibold text-on-primary transition-colors hover:bg-primary-hover sm:inline-flex"
             >
               Discuss a Project
             </Link>
@@ -147,7 +149,7 @@ export function SiteHeader() {
           <Link
             href="/contact"
             onClick={() => setOpen(false)}
-            className="mt-8 flex min-h-12 items-center justify-center rounded-sm bg-navy-900 px-6 font-semibold text-white"
+            className="mt-8 flex min-h-12 items-center justify-center rounded-sm bg-primary px-6 font-semibold text-on-primary hover:bg-primary-hover"
           >
             Discuss a Project
           </Link>

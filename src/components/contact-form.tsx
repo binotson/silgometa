@@ -24,7 +24,7 @@ type Status =
 const fieldOrder: (keyof ContactInput)[] = ["name", "email", "organization", "phone", "enquiryType", "message", "consent"];
 
 const inputClass =
-  "mt-2 block w-full rounded-sm border bg-white px-4 py-3 text-base text-ink placeholder:text-muted/70 transition-colors focus:border-navy-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/60";
+  "mt-2 block w-full rounded-sm border bg-surface px-4 py-3 text-base text-ink placeholder:text-muted/70 transition-colors focus:border-navy-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500/60";
 
 export function ContactForm({ to }: { to: string }) {
   const formRef = useRef<HTMLFormElement>(null);
@@ -270,7 +270,7 @@ export function ContactForm({ to }: { to: string }) {
             </p>
             <a
               href={status.mailto}
-              className="mt-4 inline-flex min-h-11 items-center rounded-sm bg-navy-900 px-5 font-semibold text-white hover:bg-navy-800"
+              className="mt-4 inline-flex min-h-11 items-center rounded-sm bg-primary px-5 font-semibold text-on-primary hover:bg-primary-hover"
             >
               Open in my email app
             </a>
@@ -297,7 +297,7 @@ export function ContactForm({ to }: { to: string }) {
       <button
         type="submit"
         disabled={submitting}
-        className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-sm bg-navy-900 px-8 font-semibold text-white transition-colors hover:bg-navy-800 disabled:cursor-wait disabled:opacity-70 sm:w-auto"
+        className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-sm bg-primary px-8 font-semibold text-on-primary transition-colors hover:bg-primary-hover disabled:cursor-wait disabled:opacity-70 sm:w-auto"
       >
         {submitting && <Loader2 aria-hidden className="size-4 animate-spin" />}
         {submitting ? "Sending…" : "Send enquiry"}

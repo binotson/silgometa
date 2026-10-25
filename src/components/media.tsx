@@ -19,7 +19,7 @@ function SlotMedia({ slot, sizes, preload }: { slot: MediaSlot; sizes: string; p
         />
       )}
       {slot.video && <BackgroundVideo src={slot.video.src} />}
-      <div aria-hidden className="absolute inset-0 bg-navy-900/15" />
+      <div aria-hidden className="absolute inset-0 bg-inverse/15" />
       <div aria-hidden className="absolute inset-0 bg-linear-to-t from-navy-950/55 via-navy-950/10 to-transparent" />
       {slot.credit && (
         <p className="absolute right-2 bottom-1.5 text-xs text-white/70">{slot.credit}</p>

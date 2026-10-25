@@ -50,7 +50,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         ]}
       />
 
-      <section aria-label="Engagement summary" className="border-b border-line bg-white">
+      <section aria-label="Engagement summary" className="border-b border-line bg-surface">
         <Container>
           <dl className="grid divide-y divide-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
             {facts.map((f) => (

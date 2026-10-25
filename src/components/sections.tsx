@@ -42,7 +42,7 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden bg-navy-900 text-white">
+    <section className="relative overflow-hidden bg-inverse text-white">
       <LinePattern className="top-0 right-0 h-full w-full max-w-3xl opacity-80" />
       <Container
         className={cn(
@@ -96,7 +96,7 @@ export function CtaBand({
   text?: string;
 }) {
   return (
-    <section aria-labelledby="cta-heading" className="relative overflow-hidden bg-navy-900">
+    <section aria-labelledby="cta-heading" className="relative overflow-hidden bg-inverse">
       <LinePattern className="top-0 right-0 h-full w-full max-w-2xl" />
       <Container className="relative grid gap-10 py-20 lg:grid-cols-12 lg:items-center lg:py-24">
         <div className="lg:col-span-7">
@@ -175,7 +175,7 @@ export function ValuesSection({ tone = "white" }: { tone?: "white" | "mist" | "p
 export function ProjectCard({ project, headingLevel = "h3" }: { project: Project; headingLevel?: "h2" | "h3" }) {
   const Heading = headingLevel;
   return (
-    <article className="reveal group relative flex h-full flex-col rounded-sm border border-line bg-white p-7 transition-shadow duration-300 hover:shadow-[0_18px_40px_-24px_rgba(16,36,58,0.35)] sm:p-8">
+    <article className="reveal group relative flex h-full flex-col rounded-sm border border-line bg-surface p-7 transition-shadow duration-300 hover:shadow-[0_18px_40px_-24px_rgba(16,36,58,0.35)] sm:p-8">
       <p className="text-sm font-semibold tracking-[0.12em] text-gold-700 uppercase">{project.practice}</p>
       <Heading className="mt-4 font-serif text-2xl leading-snug font-semibold text-navy-900">
         <Link href={`/projects/${project.slug}`} className="after:absolute after:inset-0 after:content-['']">
@@ -209,7 +209,7 @@ export function InsightCard({ insight, headingLevel = "h3" }: { insight: Insight
       <div className="flex flex-wrap items-center gap-3 text-sm">
         <span className="font-semibold tracking-[0.12em] text-gold-700 uppercase">{insight.theme}</span>
         {insight.status === "outline" && (
-          <span className="rounded-full border border-line bg-white px-2.5 py-0.5 text-muted">Outline · forthcoming</span>
+          <span className="rounded-full border border-line bg-surface px-2.5 py-0.5 text-muted">Outline · forthcoming</span>
         )}
       </div>
       <Heading className="mt-4 font-serif text-xl leading-snug font-semibold text-navy-900 sm:text-2xl">
@@ -230,7 +230,7 @@ export function LeaderCard({ leader }: { leader: Leader }) {
     <article className="reveal flex flex-col gap-6 border-t border-navy-900/15 pt-8 sm:flex-row">
       <div
         aria-hidden
-        className="flex size-28 shrink-0 items-center justify-center rounded-sm border border-gold-500/50 bg-navy-900 font-serif text-2xl font-semibold tracking-[0.08em] text-gold-400"
+        className="flex size-28 shrink-0 items-center justify-center rounded-sm border border-gold-500/50 bg-inverse font-serif text-2xl font-semibold tracking-[0.08em] text-gold-400"
       >
         {leader.initials}
       </div>

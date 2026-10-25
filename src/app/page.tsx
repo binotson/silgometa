@@ -19,7 +19,7 @@ const facts = [
 export default function HomePage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-navy-900 text-white">
+      <section className="relative overflow-hidden bg-inverse text-white">
         {homeHeroMedia ? (
           <div aria-hidden className="absolute inset-0">
             <SlotMedia slot={homeHeroMedia} sizes="100vw" preload />
@@ -71,7 +71,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      <section aria-label="Company facts" className="border-b border-line bg-white">
+      <section aria-label="Company facts" className="border-b border-line bg-surface">
         <Container>
           <dl className="grid grid-cols-2 lg:grid-cols-4">
             {facts.map((f, i) => (
@@ -107,7 +107,7 @@ export default function HomePage() {
             {services.map((s) => (
               <article
                 key={s.slug}
-                className="reveal group relative flex flex-col overflow-hidden rounded-sm border border-line bg-white transition-shadow duration-300 hover:shadow-[0_18px_40px_-24px_rgba(16,36,58,0.35)]"
+                className="reveal group relative flex flex-col overflow-hidden rounded-sm border border-line bg-surface transition-shadow duration-300 hover:shadow-[0_18px_40px_-24px_rgba(16,36,58,0.35)]"
               >
                 <PracticeMedia
                   slug={s.slug}
@@ -159,7 +159,7 @@ export default function HomePage() {
           </div>
           <ol className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:col-span-7">
             {engagementSteps.map((step, i) => (
-              <li key={step.title} className="reveal bg-white p-7 sm:p-8">
+              <li key={step.title} className="reveal bg-surface p-7 sm:p-8">
                 <span className="text-sm font-semibold text-gold-700">Step {i + 1}</span>
                 <h3 className="mt-3 text-xl font-semibold text-navy-900">{step.title}</h3>
                 <p className="mt-3 text-base leading-relaxed text-slate">{step.text}</p>

@@ -85,7 +85,7 @@ export default function CareersPage() {
           </div>
           <ul className="grid gap-px self-start overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:col-span-7">
             {talentAreas.map((a) => (
-              <li key={a} className="bg-white p-6 text-lg font-medium text-navy-900">
+              <li key={a} className="bg-surface p-6 text-lg font-medium text-navy-900">
                 {a}
               </li>
             ))}
