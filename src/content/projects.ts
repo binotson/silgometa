@@ -7,52 +7,78 @@
  *
  * Do not add testimonials, logos, photographs, dates or outcome statistics
  * that are not documented and approved.
+ *
+ * Engagements follow a structured presentation:
+ *   - Engagement title: the sector and core advisory scope (`title`).
+ *   - Client objective: the capital requirement or strategic goal (`objective`).
+ *   - Our role: the advisory, technical or structuring support provided (`scope`).
+ *   - Engagement status: a verified stage such as Assessment, Preparation,
+ *     Ongoing or Completed (`status`).
+ *   - Results or intended outcomes: verified achievements, or clearly defined
+ *     targets for ongoing mandates (`impact`, labelled by `impactLabel`).
+ *   - Financial context: whether an amount is proposed funding, programme size,
+ *     an approved facility or disbursed funds (`financialContext`).
+ * Leave a field unset rather than guess; it is then omitted from the page.
  */
 
 export type Project = {
   slug: string;
   published: boolean;
-  client: string;
+  /** Shown on the home page as the featured engagement profile. */
+  featured?: boolean;
+  /** Omit to present the engagement by sector without naming the client. */
+  client?: string;
+  sector?: string;
   title: string;
   practice: string;
   serviceSlug: string;
   locations?: string;
   summary: string;
+  objective?: string;
   scope: string;
+  status?: string;
   impact: string;
+  impactLabel?: "Results" | "Intended outcome";
   figure?: { label: string; value: string };
+  financialContext?: string;
   scopeItems: string[];
   note?: string;
 };
 
 const allProjects: Project[] = [
   {
-    slug: "asteks-commercial-paper",
+    slug: "commercial-paper-readiness",
     published: true,
-    client: "Asteks Group Industries KFZE",
-    title: "Commercial Paper programme structuring",
-    practice: "Corporate Deal Structuring & Capital Markets",
+    featured: true,
+    sector: "Industrial & Manufacturing",
+    title: "Commercial Paper Readiness & Capital Market Advisory",
+    practice: "Capital Markets & Deal Structuring",
     serviceSlug: "capital-markets",
     summary:
-      "Financial and regulatory structuring for a ₦5 billion–₦20 billion Commercial Paper programme.",
+      "Commercial Paper eligibility assessment and readiness preparation for a multi-billion naira capital market transaction.",
+    objective:
+      "Evaluate institutional readiness for a multi-billion naira capital market transaction to support operational expansion and working capital needs.",
     scope:
-      "Financial and regulatory structuring for a ₦5 billion–₦20 billion Commercial Paper programme.",
+      "Conducted comprehensive Commercial Paper (CP) eligibility assessments, mapped corporate governance and financial documentation requirements, and identified key operational readiness prerequisites prior to market entry.",
+    status: "Diagnostic Assessment & Preparation Phase",
     impact:
-      "Positioning for short-term working-capital optimization, regulatory readiness and credit-rating alignment.",
-    figure: { label: "Programme range", value: "₦5bn–₦20bn" },
+      "Provide actionable clarity on transaction viability and prepare the enterprise for seamless engagement with issuing houses and financial arrangers.",
+    impactLabel: "Intended outcome",
+    figure: { label: "Target transaction size", value: "₦3bn–₦5bn" },
+    financialContext:
+      "₦3 billion – ₦5 billion target transaction size (indicative funding objective; does not represent an approved facility or funds raised).",
     scopeItems: [
-      "Commercial Paper programme structuring",
-      "Regulatory structuring",
-      "Credit-rating alignment",
+      "Commercial Paper eligibility assessment",
+      "Governance and financial documentation mapping",
+      "Operational readiness prerequisites",
     ],
-    note: "The programme range describes the advisory scope of the mandate. It is not a statement of funds raised.",
   },
   {
     slug: "northern-commercial-real-estate",
     published: true,
     client: "Northern Commercial Real Estate Initiative",
     title: "Land-asset packaging and investor syndication",
-    practice: "Corporate Deal Structuring & Capital Markets",
+    practice: "Capital Markets & Deal Structuring",
     serviceSlug: "capital-markets",
     locations: "Kano and Abuja",
     summary:
@@ -72,7 +98,7 @@ const allProjects: Project[] = [
     published: true,
     client: "Fintech & Enterprise Digital Architecture",
     title: "Digital financial systems with Brilliant eSystems",
-    practice: "Infrastructure & Technology Solutions",
+    practice: "Technology & Infrastructure",
     serviceSlug: "infrastructure-technology",
     summary:
       "Co-development of digital financial systems, secure payment rails and enterprise software with Brilliant eSystems.",
@@ -91,7 +117,7 @@ const allProjects: Project[] = [
     published: true,
     client: "CFAO International, Kano State Office",
     title: "Valuation, structuring and divestment of office premises",
-    practice: "Strategic & Marketing Consultancy",
+    practice: "Strategy & Market Development",
     serviceSlug: "strategic-marketing",
     locations: "Kano",
     summary:
@@ -108,3 +134,6 @@ const allProjects: Project[] = [
 export const projects = allProjects.filter((p) => p.published);
 
 export const getProject = (slug: string) => projects.find((p) => p.slug === slug);
+
+/** The client name where approved for publication, otherwise the engagement title. */
+export const projectName = (p: Project) => p.client ?? p.title;

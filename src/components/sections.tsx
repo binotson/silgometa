@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { ArrowUpRight, Mail, Phone } from "lucide-react";
 import { ButtonLink, Container, Eyebrow, Section, SectionHeading, cn } from "@/components/ui";
 import { contact, values, type Leader } from "@/content/site";
-import type { Project } from "@/content/projects";
+import { projectName, type Project } from "@/content/projects";
 import type { Insight } from "@/content/insights";
 
 /** Decorative line pattern for dark bands. Purely ornamental. */
@@ -176,13 +176,15 @@ export function ProjectCard({ project, headingLevel = "h3" }: { project: Project
   const Heading = headingLevel;
   return (
     <article className="reveal group relative flex h-full flex-col rounded-sm border border-line bg-surface p-7 transition-shadow duration-300 hover:shadow-[0_18px_40px_-24px_rgba(16,36,58,0.35)] sm:p-8">
-      <p className="text-sm font-semibold tracking-[0.12em] text-gold-700 uppercase">{project.practice}</p>
+      <p className="text-sm font-semibold tracking-[0.12em] text-gold-700 uppercase">
+        {project.sector ?? project.practice}
+      </p>
       <Heading className="mt-4 font-serif text-2xl leading-snug font-semibold text-navy-900">
         <Link href={`/projects/${project.slug}`} className="after:absolute after:inset-0 after:content-['']">
-          {project.client}
+          {projectName(project)}
         </Link>
       </Heading>
-      <p className="mt-2 text-base font-medium text-navy-800">{project.title}</p>
+      {project.client && <p className="mt-2 text-base font-medium text-navy-800">{project.title}</p>}
       <p className="mt-4 flex-1 text-base leading-relaxed text-slate">{project.summary}</p>
       <div className="mt-6 flex items-end justify-between gap-4 border-t border-line pt-5">
         {project.figure ? (

@@ -25,6 +25,15 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
+  async redirects() {
+    return [
+      {
+        source: "/projects/asteks-commercial-paper",
+        destination: "/projects/commercial-paper-readiness",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

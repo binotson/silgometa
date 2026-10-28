@@ -23,10 +23,9 @@ export const company = {
   legalName: "SILGO META LIMITED",
   name: "Silgo Meta Limited",
   shortName: "Silgo Meta",
-  tagline:
-    "Driving Strategic Solutions Across Capital Markets, Technology & Governance.",
+  tagline: "Structuring Capital. Advancing Enterprise.",
   description:
-    "Silgo Meta Limited is a Nigerian strategic advisory firm working across corporate deal structuring and capital markets, strategic and marketing consultancy, infrastructure and technology solutions, and general business consulting.",
+    "Silgo Meta Limited helps businesses, institutions, and investors prepare for funding, structure transactions, and translate growth strategies into practical execution.",
   established: "2023-02-17",
   establishedLabel: "17 February 2023",
   incorporation:

@@ -9,6 +9,9 @@ import { projects } from "@/content/projects";
 import { services } from "@/content/services";
 import { company, engagementSteps, leaders } from "@/content/site";
 
+const featured = projects.find((p) => p.featured);
+const otherProjects = projects.filter((p) => p !== featured);
+
 const facts = [
   { label: "Established", value: company.establishedLabel },
   { label: "Incorporated under", value: "CAMA 2020" },
@@ -30,17 +33,19 @@ export default function HomePage() {
         )}
         <Container className="relative grid gap-14 py-16 sm:py-20 lg:grid-cols-12 lg:gap-10 lg:py-20 xl:py-24">
           <div className="lg:col-span-7">
-            <Eyebrow onDark>Strategic advisory · Nigeria</Eyebrow>
+            <Eyebrow onDark>Strategic advisory · Capital markets · Technology</Eyebrow>
             <h1 className="mt-6 font-serif text-[2.6rem] leading-[1.08] font-semibold text-balance sm:text-6xl lg:text-[3.5rem] xl:text-[3.75rem]">
-              Driving Strategic Solutions Across Capital Markets, Technology &amp; Governance.
+              {company.tagline}
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/75 sm:text-xl">
-              {company.legalName} is a Nigerian strategic advisory firm helping companies, institutions and
-              investors structure transactions, integrate technology and strengthen governance.
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/75 sm:text-xl">{company.description}</p>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-white/65 sm:text-lg">
+              Operating from Abuja and Kano, we combine financial, commercial, and technology expertise to guide
+              informed decision-making—from initial diagnostic assessment through transaction structuring and
+              execution.
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
               <ButtonLink href="/contact" variant="gold" arrow>
-                Discuss a Project
+                Discuss Your Project
               </ButtonLink>
               <ButtonLink href="/services" variant="ghost-light">
                 Explore Our Expertise
@@ -94,7 +99,7 @@ export default function HomePage() {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
               id="expertise-heading"
-              eyebrow="Our expertise"
+              eyebrow="Core service offerings"
               title="Four practice areas, one integrated advisory partner"
               intro="Our work connects finance, strategy, technology and institutional capability, so clients can address complex mandates with a single, coordinated team."
             />
@@ -131,7 +136,7 @@ export default function HomePage() {
                     ))}
                   </ul>
                   <span className="mt-auto flex items-center gap-2 pt-6 text-base font-semibold text-navy-900">
-                    Explore practice area
+                    {s.cta}
                     <ArrowRight
                       aria-hidden
                       className="size-4 text-gold-700 transition-transform duration-200 group-hover:translate-x-1"
@@ -174,19 +179,60 @@ export default function HomePage() {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
               id="projects-heading"
-              eyebrow="Selected engagements"
-              title="Documented case studies"
-              intro="A selection of mandates across capital markets, real estate, technology and transaction advisory."
+              eyebrow={featured ? "Featured engagement profile" : "Selected engagements"}
+              title={featured ? featured.title : "Documented case studies"}
+              intro={featured?.sector ? `Sector: ${featured.sector}` : undefined}
             />
             <TextLink href="/projects" className="shrink-0">
               All projects
             </TextLink>
           </div>
-          <div className="mt-14 grid gap-6 md:grid-cols-2">
-            {projects.map((p) => (
-              <ProjectCard key={p.slug} project={p} />
-            ))}
-          </div>
+          {featured && (
+            <article className="reveal mt-14 grid gap-px overflow-hidden rounded-sm border border-line bg-line lg:grid-cols-12">
+              <dl className="grid gap-8 bg-surface p-7 sm:p-10 lg:col-span-8">
+                {[
+                  { label: "Client objective", value: featured.objective },
+                  { label: "Our role", value: featured.scope },
+                  { label: featured.impactLabel ?? "Results", value: featured.impact },
+                ].map(
+                  (f) =>
+                    f.value && (
+                      <div key={f.label}>
+                        <dt className="text-sm font-semibold tracking-[0.14em] text-gold-700 uppercase">{f.label}</dt>
+                        <dd className="mt-3 text-lg leading-relaxed text-slate">{f.value}</dd>
+                      </div>
+                    ),
+                )}
+              </dl>
+              <div className="flex flex-col gap-8 bg-paper p-7 sm:p-10 lg:col-span-4">
+                {featured.status && (
+                  <div>
+                    <p className="text-sm text-muted">Engagement status</p>
+                    <p className="mt-2 font-serif text-xl font-semibold text-navy-900">{featured.status}</p>
+                  </div>
+                )}
+                {featured.figure && (
+                  <div>
+                    <p className="text-sm text-muted">{featured.figure.label}</p>
+                    <p className="mt-2 font-serif text-3xl font-semibold text-navy-900">{featured.figure.value}</p>
+                    {featured.financialContext && (
+                      <p className="mt-3 text-sm leading-relaxed text-muted">{featured.financialContext}</p>
+                    )}
+                  </div>
+                )}
+                <TextLink href={`/projects/${featured.slug}`} className="mt-auto self-start">
+                  View Detailed Engagement Profile
+                </TextLink>
+              </div>
+            </article>
+          )}
+          {otherProjects.length > 0 && (
+            <div className="mt-6 grid gap-6 md:grid-cols-3">
+              {otherProjects.map((p) => (
+                <ProjectCard key={p.slug} project={p} />
+              ))}
+            </div>
+          )}
         </Container>
       </Section>
 

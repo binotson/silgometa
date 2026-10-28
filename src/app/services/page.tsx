@@ -7,7 +7,7 @@ import { services } from "@/content/services";
 export const metadata = pageMetadata({
   title: "Services & Practice Areas",
   description:
-    "Corporate deal structuring and capital markets, strategic and marketing consultancy, infrastructure and technology solutions, and business consulting and capacity building.",
+    "Capital markets and deal structuring, strategy and market development, technology and infrastructure, and business consulting and capacity building.",
   path: "/services",
 });
 

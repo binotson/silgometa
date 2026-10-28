@@ -108,9 +108,11 @@ navy `#10243A` and warm white `#FAF9F6`. Accessible text shades are defined in
 
 The site uses only facts from the supplied company profile. Before launch, please confirm:
 
-- **Case studies** (`src/content/projects.ts`): permission to publish client names (Asteks Group
-  Industries KFZE, CFAO International, Brilliant eSystems) and figures (₦5bn–₦20bn programme range;
-  ₦1,350,000,000 reported transaction value). Set `published: false` to hide any entry.
+- **Case studies** (`src/content/projects.ts`): permission to publish client names (CFAO International,
+  Brilliant eSystems) and figures (₦3bn–₦5bn target transaction size on the featured, unnamed
+  Commercial Paper readiness profile; ₦3bn–₦20bn+ capital markets headline range; ₦1,350,000,000
+  reported transaction value). The other case studies do not yet have a client objective or
+  engagement status; add them once verified. Set `published: false` to hide any entry.
 - **Leadership** (`src/content/site.ts`): the summaries are based on job titles only. Supply approved
   biographies and, if desired, approved headshots. Board and senior adviser details are not published.
 - **Insights** (`src/content/insights.ts`): the four topics are labelled as outlines (forthcoming).

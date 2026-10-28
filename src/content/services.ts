@@ -12,6 +12,8 @@ export type Service = {
   title: string;
   shortTitle: string;
   summary: string;
+  /** Link label used on the home page service cards. */
+  cta: string;
   intro: string;
   challenges: string[];
   offerings: Offering[];
@@ -24,12 +26,13 @@ export const services: Service[] = [
   {
     slug: "capital-markets",
     number: "01",
-    title: "Corporate Deal Structuring & Capital Markets",
+    title: "Capital Markets & Deal Structuring",
     shortTitle: "Capital Markets",
     summary:
-      "Structuring and advisory for Commercial Paper programmes, debt refinancing, capital raising, joint ventures and commercial land assets.",
+      "Prepare your enterprise for funding and structure transactions tailored to your strategic goals. Our advisory scope includes Commercial Paper (CP) readiness, capital-raising preparation, debt refinancing, joint venture structuring, and corporate investment preparation.",
+    cta: "Explore Capital Advisory",
     intro:
-      "We help companies prepare for and navigate the debt capital markets — from structuring a Commercial Paper programme to coordinating credit ratings, documentation and syndicate partners. Our advisory scope includes Commercial Paper programmes in the ₦5 billion to ₦20 billion-plus range.",
+      "We help companies prepare for and navigate the debt capital markets — from Commercial Paper readiness to coordinating credit ratings, documentation and syndicate partners. We advise on corporate capital structures and debt issuance programmes ranging from ₦3 billion to ₦20 billion+.",
     challenges: [
       "Short-term working-capital needs that bank facilities alone do not meet efficiently.",
       "Preparing a business to meet the documentation and disclosure expectations of capital-market investors.",
@@ -89,16 +92,17 @@ export const services: Service[] = [
       "Real estate and land-asset holders",
       "Investors and joint venture partners",
     ],
-    relatedProjects: ["asteks-commercial-paper", "northern-commercial-real-estate", "cfao-kano-office"],
+    relatedProjects: ["commercial-paper-readiness", "northern-commercial-real-estate", "cfao-kano-office"],
     note: "Silgo Meta provides advisory and coordination services. Nothing on this page is an offer of securities or a guarantee that financing will be obtained. Regulatory filings and approvals remain subject to the requirements of the relevant authorities.",
   },
   {
     slug: "strategic-marketing",
     number: "02",
-    title: "Strategic & Marketing Consultancy",
-    shortTitle: "Strategy & Marketing",
+    title: "Strategy & Market Development",
+    shortTitle: "Strategy & Markets",
     summary:
-      "Market entry, enterprise strategy, public policy alignment, government relations, brand architecture and stakeholder communications.",
+      "Build a clear, resilient path to expansion. We provide strategic direction, market-entry frameworks, commercial partnership structuring, and stakeholder engagement to help organizations evaluate market opportunities and make data-driven decisions.",
+    cta: "Explore Strategy Services",
     intro:
       "We help organizations position themselves in new and existing markets, align their plans with the policy environment and communicate clearly with the stakeholders who matter to their success.",
     challenges: [
@@ -155,10 +159,11 @@ export const services: Service[] = [
   {
     slug: "infrastructure-technology",
     number: "03",
-    title: "Infrastructure & Technology Solutions",
-    shortTitle: "Infrastructure & Technology",
+    title: "Technology & Infrastructure",
+    shortTitle: "Technology & Infrastructure",
     summary:
-      "Enterprise software, cloud integration, fintech systems, ICT and data centre infrastructure, networking, digital media and fleet conversion technologies.",
+      "Align your digital architecture with strategic business priorities. We advise on enterprise software deployment, fintech integrations, cloud infrastructure, and core digital systems to optimize operations and support scalable growth.",
+    cta: "Explore Technology Services",
     intro:
       "We help institutions plan and integrate the technology and infrastructure that modern operations depend on — working with specialist delivery partners where appropriate.",
     challenges: [
@@ -215,10 +220,11 @@ export const services: Service[] = [
   {
     slug: "business-consulting",
     number: "04",
-    title: "General Business Consulting & Capacity Building",
+    title: "Business Consulting & Capacity Building",
     shortTitle: "Consulting & Capacity",
     summary:
-      "Institutional restructuring, executive capacity building, HR optimization, feasibility and socio-economic research, governance and compliance.",
+      "Strengthen the organizational framework driving your ambitions. Our services cover corporate restructuring, governance frameworks, feasibility studies, and executive leadership development to boost performance and scale operations.",
+    cta: "Explore Business Consulting",
     intro:
       "We help organizations strengthen how they are structured, governed and staffed — and provide the research and validation that sound decisions depend on.",
     challenges: [

@@ -4,7 +4,7 @@ import { Info } from "lucide-react";
 import { CtaBand, PageHero, ProjectCard } from "@/components/sections";
 import { Container, Section, TextLink } from "@/components/ui";
 import { pageMetadata } from "@/lib/metadata";
-import { getProject, projects } from "@/content/projects";
+import { getProject, projectName, projects } from "@/content/projects";
 
 // Every valid slug is prerendered by generateStaticParams. Unknown slugs may
 // block while rendering so they can return a real 404 status via notFound().
@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps<"/projects/[slug]">
   const project = getProject(slug);
   if (!project) return {};
   return pageMetadata({
-    title: `${project.client} — ${project.title}`,
+    title: project.client ? `${project.client} — ${project.title}` : project.title,
     description: project.summary,
     path: `/projects/${project.slug}`,
   });
@@ -32,8 +32,11 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
 
   const more = projects.filter((p) => p.slug !== project.slug).slice(0, 3);
 
+  const name = projectName(project);
   const facts = [
+    ...(project.sector ? [{ label: "Sector", value: project.sector }] : []),
     { label: "Practice area", value: project.practice },
+    ...(project.status ? [{ label: "Engagement status", value: project.status }] : []),
     ...(project.locations ? [{ label: "Location", value: project.locations }] : []),
     ...(project.figure ? [project.figure] : []),
   ];
@@ -42,17 +45,21 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
     <>
       <PageHero
         eyebrow="Case study"
-        title={project.client}
-        intro={project.title}
+        title={name}
+        intro={project.client ? project.title : project.summary}
         breadcrumbs={[
           { href: "/projects", label: "Projects" },
-          { href: `/projects/${project.slug}`, label: project.client },
+          { href: `/projects/${project.slug}`, label: name },
         ]}
       />
 
       <section aria-label="Engagement summary" className="border-b border-line bg-surface">
         <Container>
-          <dl className="grid divide-y divide-line sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          <dl
+            className={`grid divide-y divide-line sm:divide-x sm:divide-y-0 ${
+              facts.length > 3 ? "sm:grid-cols-2 lg:grid-cols-4 sm:max-lg:divide-x-0" : "sm:grid-cols-3"
+            }`}
+          >
             {facts.map((f) => (
               <div key={f.label} className="py-7 sm:px-8 sm:first:pl-0">
                 <dt className="text-sm text-muted">{f.label}</dt>
@@ -66,14 +73,40 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
       <Section tone="white" padding="py-14 sm:py-16 lg:py-20">
         <Container className="grid gap-14 lg:grid-cols-12">
           <article className="space-y-12 lg:col-span-7">
+            {project.objective && (
+              <div>
+                <h2 className="text-sm font-semibold tracking-[0.14em] text-gold-700 uppercase">Client objective</h2>
+                <p className="mt-4 font-serif text-2xl leading-snug text-navy-900 sm:text-[1.75rem]">
+                  {project.objective}
+                </p>
+              </div>
+            )}
             <div>
-              <h2 className="text-sm font-semibold tracking-[0.14em] text-gold-700 uppercase">Advisory scope</h2>
-              <p className="mt-4 font-serif text-2xl leading-snug text-navy-900 sm:text-[1.75rem]">{project.scope}</p>
+              <h2 className="text-sm font-semibold tracking-[0.14em] text-gold-700 uppercase">
+                {project.objective ? "Our role" : "Advisory scope"}
+              </h2>
+              <p
+                className={
+                  project.objective
+                    ? "mt-4 text-lg leading-relaxed text-slate"
+                    : "mt-4 font-serif text-2xl leading-snug text-navy-900 sm:text-[1.75rem]"
+                }
+              >
+                {project.scope}
+              </p>
             </div>
             <div>
-              <h2 className="text-sm font-semibold tracking-[0.14em] text-gold-700 uppercase">Reported strategic impact</h2>
+              <h2 className="text-sm font-semibold tracking-[0.14em] text-gold-700 uppercase">
+                {project.impactLabel ?? "Reported strategic impact"}
+              </h2>
               <p className="mt-4 text-lg leading-relaxed text-slate">{project.impact}</p>
             </div>
+            {project.financialContext && (
+              <div>
+                <h2 className="text-sm font-semibold tracking-[0.14em] text-gold-700 uppercase">Financial context</h2>
+                <p className="mt-4 text-lg leading-relaxed text-slate">{project.financialContext}</p>
+              </div>
+            )}
             {project.note && (
               <p className="flex gap-3 rounded-sm bg-mist p-5 text-sm leading-relaxed text-muted">
                 <Info aria-hidden className="mt-0.5 size-4 shrink-0" />

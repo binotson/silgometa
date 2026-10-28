@@ -6,7 +6,7 @@ import { projects } from "@/content/projects";
 export const metadata = pageMetadata({
   title: "Projects & Case Studies",
   description:
-    "Selected Silgo Meta engagements in Commercial Paper structuring, real estate investor syndication, fintech architecture and transaction advisory.",
+    "Selected Silgo Meta engagements in Commercial Paper readiness, real estate investor syndication, fintech architecture and transaction advisory.",
   path: "/projects",
 });
 
