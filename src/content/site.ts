@@ -36,9 +36,9 @@ export const company = {
 export const contact = {
   phone: "+234-906-8888-488",
   phoneHref: "tel:+2349068888488",
-  email: "info@silgometa.com.ng",
+  email: "infor@silgometa.com.ng",
   directory: [
-    { label: "General enquiries", email: "info@silgometa.com.ng" },
+    { label: "General enquiries", email: "infor@silgometa.com.ng" },
     { label: "Secretariat", email: "secretariat@silgometa.com.ng" },
     { label: "Sales", email: "sales@silgometa.com.ng" },
     { label: "Support", email: "support@silgometa.com.ng" },

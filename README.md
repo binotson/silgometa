@@ -65,7 +65,7 @@ See `.env.example`. None are required to run the site locally.
 | `ALLOW_INDEXING`       | `true` only in production. Otherwise robots.txt and meta tags block indexing. Vercel production is detected automatically. |
 | `RESEND_API_KEY`       | Server-side API key for email delivery (contact form).                     |
 | `CONTACT_FROM_EMAIL`   | Verified sender, e.g. `Silgo Meta Website <website@silgometa.com.ng>`.     |
-| `CONTACT_TO_EMAIL`     | Recipient(s), comma-separated. Defaults to `info@silgometa.com.ng`.        |
+| `CONTACT_TO_EMAIL`     | Recipient(s), comma-separated. Defaults to `infor@silgometa.com.ng`.        |
 
 Never commit `.env*` files; they are ignored by Git.
 
@@ -81,7 +81,7 @@ Email delivery uses the [Resend](https://resend.com) API. To enable it:
 3. Redeploy, submit a test enquiry and confirm it arrives.
 
 **Until this is configured, the form does not send messages.** It tells the visitor that online
-sending is not yet enabled and offers a pre-filled email to `info@silgometa.com.ng` instead.
+sending is not yet enabled and offers a pre-filled email to `infor@silgometa.com.ng` instead.
 
 ## Official logo and brand colours
 

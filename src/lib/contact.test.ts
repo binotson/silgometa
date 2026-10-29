@@ -74,8 +74,8 @@ describe("email formatting", () => {
   });
 
   it("builds an encoded mailto fallback", () => {
-    const link = buildMailtoFallback("info@silgometa.com.ng", normalizeContact(valid));
-    expect(link.startsWith("mailto:info@silgometa.com.ng?subject=")).toBe(true);
+    const link = buildMailtoFallback("infor@silgometa.com.ng", normalizeContact(valid));
+    expect(link.startsWith("mailto:infor@silgometa.com.ng?subject=")).toBe(true);
     expect(link).not.toContain(" ");
   });
 });

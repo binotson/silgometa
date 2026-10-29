@@ -75,7 +75,7 @@ export async function POST(request: Request) {
 
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.CONTACT_FROM_EMAIL;
-  const to = process.env.CONTACT_TO_EMAIL || "info@silgometa.com.ng";
+  const to = process.env.CONTACT_TO_EMAIL || "infor@silgometa.com.ng";
   if (!apiKey || !from) {
     return json(503, { ok: false, code: "not_configured" });
   }
