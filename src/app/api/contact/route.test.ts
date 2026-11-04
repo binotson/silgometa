@@ -1,9 +1,17 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock the SMTP transport: no network connections are made in tests.
-const sendMailMock = vi.fn();
+const { sendMailMock, transportCalls } = vi.hoisted(() => ({
+  sendMailMock: vi.fn(),
+  transportCalls: [] as unknown[][],
+}));
 vi.mock("nodemailer", () => ({
-  default: { createTransport: vi.fn(() => ({ sendMail: sendMailMock })) },
+  default: {
+    createTransport: (...args: unknown[]) => {
+      transportCalls.push(args);
+      return { sendMail: sendMailMock };
+    },
+  },
 }));
 
 const { POST } = await import("./route");
@@ -116,6 +124,44 @@ describe("POST /api/contact delivery results", () => {
     expect(res.status).toBe(503);
     expect(await res.json()).toEqual({ ok: false, code: "not_configured" });
     expect(sendMailMock).not.toHaveBeenCalled();
+  });
+});
+
+describe("POST /api/contact Nodemailer hardening (GHSA-2x7j-588g-ccc2, GHSA-v53p-9fqp-m79j, GHSA-p6gq-j5cr-w38f)", () => {
+  it("creates the transport with file and URL access disabled", async () => {
+    accept();
+    expect((await POST(request(valid()))).status).toBe(200);
+    expect(transportCalls.length).toBeGreaterThan(0);
+    const [options, defaults] = transportCalls.at(-1)!;
+    expect(options).toMatchObject({ disableFileAccess: true, disableUrlAccess: true });
+    expect(defaults).toMatchObject({ disableFileAccess: true, disableUrlAccess: true });
+  });
+
+  it("passes only plain strings to sendMail — never raw, attachments, html or address lists", async () => {
+    accept();
+    const res = await POST(
+      request(valid({ raw: { path: "/etc/passwd" }, attachments: [{ path: "/etc/passwd" }], html: "<b>x</b>" })),
+    );
+    expect(res.status).toBe(200);
+    const msg = sendMailMock.mock.calls[0][0];
+    expect(Object.keys(msg).sort()).toEqual(["from", "replyTo", "subject", "text", "to"]);
+    expect(typeof msg.to).toBe("string");
+    expect(typeof msg.replyTo).toBe("string");
+    expect(msg.replyTo).not.toMatch(/[,;\s<>]/);
+  });
+
+  it.each([
+    ["a comma-separated address list (quadratic parser DoS)", "a@b.com,".repeat(2_000)],
+    ["a long whitespace-free run with no usable @ (backtracking DoS)", "x".repeat(15_000)],
+    ["a list with display names", "a, b <c@d.com>,".repeat(500)],
+    ["two addresses", "visitor@example.com,attacker@evil.test"],
+    ["an angle-addr", "Visitor <visitor@example.com>"],
+  ])("rejects %s as the email before Nodemailer sees it", async (_label, email) => {
+    const started = performance.now();
+    const res = await POST(request(valid({ email })));
+    expect([413, 422]).toContain(res.status);
+    expect(sendMailMock).not.toHaveBeenCalled();
+    expect(performance.now() - started).toBeLessThan(500);
   });
 });
 

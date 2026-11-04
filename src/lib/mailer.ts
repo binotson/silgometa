@@ -38,15 +38,23 @@ function transporterFor(config: SmtpConfig) {
   if (cached?.key !== key) {
     cached = {
       key,
-      transporter: nodemailer.createTransport({
-        host: config.host,
-        port: config.port,
-        secure: config.secure,
-        auth: { user: config.user, pass: config.pass },
-        connectionTimeout: 10_000,
-        greetingTimeout: 10_000,
-        socketTimeout: 15_000,
-      }),
+      transporter: nodemailer.createTransport(
+        {
+          host: config.host,
+          port: config.port,
+          secure: config.secure,
+          auth: { user: config.user, pass: config.pass },
+          connectionTimeout: 10_000,
+          greetingTimeout: 10_000,
+          socketTimeout: 15_000,
+          // Defence in depth: website mail is plain text only, so Nodemailer
+          // must never read local files or fetch URLs for message content.
+          disableFileAccess: true,
+          disableUrlAccess: true,
+        },
+        // Message defaults, also applied to every message.
+        { disableFileAccess: true, disableUrlAccess: true },
+      ),
     };
   }
   return cached.transporter;
@@ -62,6 +70,10 @@ const addressOf = (entry: unknown) =>
  * accepted the recipient and rejected nothing.
  */
 export async function sendMail(config: SmtpConfig, message: OutgoingMessage): Promise<boolean> {
+  // Only plain strings reach Nodemailer: no `raw`, attachments, html or
+  // address objects/lists. Recipient is a fixed server-side mailbox; Reply-To
+  // is a single validated address (≤200 chars, no commas, spaces or brackets),
+  // which keeps the address parser's input small and simple.
   const info = await transporterFor(config).sendMail({
     from: { name: "SILGO META LIMITED Website", address: config.from },
     to: message.to,
