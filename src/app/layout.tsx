@@ -17,7 +17,7 @@ const sourceSerif = Source_Serif_4({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${company.legalName} — Strategic Advisory, Capital Markets & Technology`,
+    default: `${company.legalName} — Strategic Capital Access & Corporate Financial Advisory`,
     template: `%s | ${company.legalName}`,
   },
   description: company.description,
@@ -44,11 +44,21 @@ const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: company.legalName,
+  legalName: company.legalName,
+  alternateName: company.name,
   url: company.website,
+  logo: `${siteUrl}/images/silgo-meta-emblem.png`,
   email: contact.email,
   telephone: contact.phone,
-  foundingDate: company.established,
+  slogan: company.tagline,
   description: company.description,
+  identifier: {
+    "@type": "PropertyValue",
+    propertyID: "CAC RC Number",
+    name: "Corporate Affairs Commission registration number",
+    value: company.rcNumber,
+  },
+  areaServed: { "@type": "Country", name: "Nigeria" },
   address: offices.map((o) => ({
     "@type": "PostalAddress",
     streetAddress: o.lines.slice(0, -1).join(", "),

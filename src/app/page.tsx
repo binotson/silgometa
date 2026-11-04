@@ -2,21 +2,22 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PracticeMedia, SlotMedia } from "@/components/media";
 import { CtaBand, InsightCard, LeaderCard, LinePattern, ProjectCard, ValuesSection } from "@/components/sections";
-import { ButtonLink, Container, Eyebrow, Section, SectionHeading, TextLink } from "@/components/ui";
+import { ButtonLink, Container, Eyebrow, Section, SectionHeading, TextLink, cn } from "@/components/ui";
+import { corporateOverview, fundingNetwork, sectorSolutions } from "@/content/corporate";
 import { insights } from "@/content/insights";
 import { homeHeroMedia } from "@/content/media";
 import { projects } from "@/content/projects";
-import { services } from "@/content/services";
+import { corePillars } from "@/content/services";
 import { company, engagementSteps, leaders } from "@/content/site";
 
 const featured = projects.find((p) => p.featured);
 const otherProjects = projects.filter((p) => p !== featured);
 
 const facts = [
-  { label: "Established", value: company.establishedLabel },
-  { label: "Incorporated under", value: "CAMA 2020" },
-  { label: "Offices", value: "Abuja & Kano" },
-  { label: "Practice areas", value: "Four integrated disciplines" },
+  { label: "Registered company", value: company.rcLabel },
+  { label: "Strategic locations", value: "Abuja & Kano" },
+  { label: "Core business", value: "Capital access & facilitation" },
+  { label: "Service pillars", value: "Five integrated pillars" },
 ];
 
 export default function HomePage() {
@@ -33,37 +34,39 @@ export default function HomePage() {
         )}
         <Container className="relative grid gap-14 py-16 sm:py-20 lg:grid-cols-12 lg:gap-10 lg:py-20 xl:py-24">
           <div className="lg:col-span-7">
-            <Eyebrow onDark>Strategic advisory · Capital markets · Technology</Eyebrow>
-            <h1 className="mt-6 font-serif text-[2.6rem] leading-[1.08] font-semibold text-balance sm:text-6xl lg:text-[3.5rem] xl:text-[3.75rem]">
-              {company.tagline}
+            <Eyebrow onDark>{corporateOverview.title}</Eyebrow>
+            <h1 className="mt-6 font-serif text-[2.4rem] leading-[1.08] font-semibold text-balance sm:text-6xl lg:text-[3.4rem] xl:text-[3.6rem]">
+              {company.taglineLines.map((line, i) => (
+                <span key={line} className={cn("block", i > 0 && "text-white/85")}>
+                  {line}
+                </span>
+              ))}
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/75 sm:text-xl">{company.description}</p>
-            <p className="mt-4 max-w-xl text-base leading-relaxed text-white/65 sm:text-lg">
-              Operating from Abuja and Kano, we combine financial, commercial, and technology expertise to guide
-              informed decision-making—from initial diagnostic assessment through transaction structuring and
-              execution.
+            <p className="mt-5 text-sm leading-relaxed font-medium tracking-[0.04em] text-gold-300">
+              {company.positioning.join(" · ")}
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row">
               <ButtonLink href="/contact" variant="gold" arrow>
-                Discuss Your Project
+                Discuss a Funding Requirement
               </ButtonLink>
-              <ButtonLink href="/services" variant="ghost-light">
-                Explore Our Expertise
+              <ButtonLink href="/corporate-overview" variant="ghost-light">
+                Corporate Overview
               </ButtonLink>
             </div>
           </div>
 
-          <nav aria-label="Practice areas" className="lg:col-span-5 lg:col-start-8 lg:self-end">
-            <p className="text-sm font-semibold tracking-[0.14em] text-white/60 uppercase">Practice areas</p>
+          <nav aria-label="Service pillars" className="lg:col-span-5 lg:col-start-8 lg:self-end">
+            <p className="text-sm font-semibold tracking-[0.14em] text-white/60 uppercase">Service pillars</p>
             <ul className="mt-4 border-t border-white/15">
-              {services.map((s) => (
+              {corePillars.map((s) => (
                 <li key={s.slug} className="border-b border-white/15">
                   <Link
                     href={`/services/${s.slug}`}
-                    className="group flex items-center gap-5 py-5 transition-colors hover:text-gold-300"
+                    className="group flex items-center gap-5 py-4 transition-colors hover:text-gold-300"
                   >
                     <span className="font-serif text-lg text-gold-400">{s.number}</span>
-                    <span className="flex-1 text-lg font-medium">{s.title}</span>
+                    <span className="flex-1 text-base font-medium sm:text-lg">{s.title}</span>
                     <ArrowRight
                       aria-hidden
                       className="size-4 shrink-0 text-white/50 transition-transform group-hover:translate-x-1 group-hover:text-gold-300"
@@ -82,12 +85,12 @@ export default function HomePage() {
             {facts.map((f, i) => (
               <div
                 key={f.label}
-                className={`py-8 sm:py-10 ${i % 2 === 1 ? "border-l border-line pl-5 sm:pl-8" : ""} ${
+                className={`py-8 sm:py-10 ${i % 2 === 1 ? "border-l border-line pl-5 sm:pl-8" : "pr-4"} ${
                   i === 2 ? "border-t border-line lg:border-t-0 lg:border-l lg:pl-8" : ""
                 } ${i === 3 ? "border-t border-line lg:border-t-0" : ""}`}
               >
                 <dt className="text-sm text-muted">{f.label}</dt>
-                <dd className="mt-2 font-serif text-xl font-semibold text-navy-900 sm:text-2xl">{f.value}</dd>
+                <dd className="mt-2 font-serif text-lg font-semibold text-navy-900 sm:text-2xl">{f.value}</dd>
               </div>
             ))}
           </dl>
@@ -99,9 +102,9 @@ export default function HomePage() {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
               id="expertise-heading"
-              eyebrow="Core service offerings"
-              title="Four practice areas, one integrated advisory partner"
-              intro="Our work connects finance, strategy, technology and institutional capability, so clients can address complex mandates with a single, coordinated team."
+              eyebrow="Core service pillars"
+              title="Five pillars, one strategic bridge to capital"
+              intro={corporateOverview.purpose}
             />
             <TextLink href="/services" className="shrink-0">
               All services
@@ -109,19 +112,25 @@ export default function HomePage() {
           </div>
 
           <div className="mt-14 grid gap-6 md:grid-cols-2">
-            {services.map((s) => (
+            {corePillars.map((s, i) => (
               <article
                 key={s.slug}
-                className="reveal group relative flex flex-col overflow-hidden rounded-sm border border-line bg-surface transition-shadow duration-300 hover:shadow-[0_18px_40px_-24px_rgba(16,36,58,0.35)]"
+                className={cn(
+                  "reveal group relative flex flex-col overflow-hidden rounded-sm border border-line bg-surface transition-shadow duration-300 hover:shadow-[0_18px_40px_-24px_rgba(16,36,58,0.35)]",
+                  i === 0 && "md:col-span-2 lg:grid lg:grid-cols-2",
+                )}
               >
                 <PracticeMedia
                   slug={s.slug}
                   sizes="(min-width: 768px) 50vw, 100vw"
                   bare
-                  className="aspect-[16/8]"
+                  className={cn("aspect-[16/8]", i === 0 && "lg:aspect-auto lg:h-full lg:min-h-80")}
                 />
                 <div className="flex flex-1 flex-col p-7 sm:p-8">
-                  <p className="font-serif text-lg font-semibold text-gold-700">{s.number}</p>
+                  <p className="font-serif text-lg font-semibold text-gold-700">
+                    {s.number}
+                    {s.kicker && <span className="ml-3 font-sans text-sm font-semibold tracking-[0.12em] uppercase">{s.kicker}</span>}
+                  </p>
                   <h3 className="mt-2 font-serif text-2xl leading-snug font-semibold text-navy-900">
                     <Link href={`/services/${s.slug}`} className="after:absolute after:inset-0 after:content-['']">
                       {s.title}
@@ -149,25 +158,67 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      <Section tone="mist" labelledBy="approach-heading">
-        <Container className="grid gap-14 lg:grid-cols-12">
-          <div className="lg:col-span-5">
+      <Section tone="white" labelledBy="channels-heading">
+        <Container className="grid gap-14 lg:grid-cols-2">
+          <div>
             <SectionHeading
-              id="approach-heading"
-              eyebrow="Our approach"
-              title="Institutional clarity, from first conversation to execution"
-              intro="Every mandate begins with understanding the client's objectives and constraints. We then structure a solution and coordinate the advisers, counterparties and stakeholders needed to deliver it."
+              id="channels-heading"
+              eyebrow="Funding access network"
+              title="Access to a broad range of financing channels"
+              intro="We help businesses approach the capital providers best suited to their requirement."
             />
-            <TextLink href="/about" className="mt-8">
-              About Silgo Meta
+            <ul className="mt-8 divide-y divide-line border-y border-line">
+              {fundingNetwork.rows.map((r) => (
+                <li key={r.channel} className="py-3 text-base font-medium text-navy-900">
+                  {r.channel}
+                </li>
+              ))}
+            </ul>
+            <TextLink href="/corporate-overview" className="mt-8">
+              Funding channels and solutions
             </TextLink>
           </div>
-          <ol className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:col-span-7">
+          <div>
+            <SectionHeading
+              id="sectors-heading"
+              eyebrow="Sector solutions"
+              title="Serving major sectors of the Nigerian economy"
+              intro="Each industry has different funding cycles, operating risks and investment requirements."
+            />
+            <ul className="mt-8 flex flex-wrap gap-2" aria-label="Sectors served">
+              {sectorSolutions.rows.map((r) => (
+                <li key={r.sector} className="rounded-full border border-line bg-paper px-3.5 py-1.5 text-sm text-navy-800">
+                  {r.sector}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8 flex flex-wrap gap-6">
+              <TextLink href="/sectors">Sector solutions</TextLink>
+              <TextLink href="/services/commercial-paper-advisory">Commercial Paper advisory</TextLink>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      <Section tone="mist" labelledBy="approach-heading">
+        <Container className="grid gap-14 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <SectionHeading
+              id="approach-heading"
+              eyebrow="Our process"
+              title="From funding requirement to financing opportunity"
+              intro="A structured, six-phase engagement, from initial consultation to continuing advisory."
+            />
+            <TextLink href="/process" className="mt-8">
+              Our process in detail
+            </TextLink>
+          </div>
+          <ol className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:col-span-8 lg:grid-cols-3">
             {engagementSteps.map((step, i) => (
-              <li key={step.title} className="reveal bg-surface p-7 sm:p-8">
-                <span className="text-sm font-semibold text-gold-700">Step {i + 1}</span>
-                <h3 className="mt-3 text-xl font-semibold text-navy-900">{step.title}</h3>
-                <p className="mt-3 text-base leading-relaxed text-slate">{step.text}</p>
+              <li key={step.title} className="reveal bg-surface p-6 sm:p-7">
+                <span className="text-sm font-semibold text-gold-700">Phase {i + 1}</span>
+                <h3 className="mt-3 text-lg font-semibold text-navy-900">{step.short}</h3>
+                <p className="mt-2 text-base leading-relaxed text-slate">{step.text}</p>
               </li>
             ))}
           </ol>
@@ -179,7 +230,7 @@ export default function HomePage() {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
               id="projects-heading"
-              eyebrow={featured ? "Featured engagement profile" : "Selected engagements"}
+              eyebrow={featured ? (featured.profileLabel ?? "Featured engagement profile") : "Selected engagements"}
               title={featured ? featured.title : "Documented case studies"}
               intro={featured?.sector ? `Sector: ${featured.sector}` : undefined}
             />
@@ -191,8 +242,8 @@ export default function HomePage() {
             <article className="reveal mt-14 grid gap-px overflow-hidden rounded-sm border border-line bg-line lg:grid-cols-12">
               <dl className="grid gap-8 bg-surface p-7 sm:p-10 lg:col-span-8">
                 {[
-                  { label: "Client objective", value: featured.objective },
-                  { label: "Our role", value: featured.scope },
+                  { label: "Engagement objective", value: featured.objective },
+                  { label: "Our advisory role", value: featured.scope },
                   { label: featured.impactLabel ?? "Results", value: featured.impact },
                 ].map(
                   (f) =>
@@ -215,13 +266,16 @@ export default function HomePage() {
                   <div>
                     <p className="text-sm text-muted">{featured.figure.label}</p>
                     <p className="mt-2 font-serif text-3xl font-semibold text-navy-900">{featured.figure.value}</p>
-                    {featured.financialContext && (
-                      <p className="mt-3 text-sm leading-relaxed text-muted">{featured.financialContext}</p>
-                    )}
+                  </div>
+                )}
+                {featured.financialContext && (
+                  <div>
+                    <p className="text-sm text-muted">Financial context</p>
+                    <p className="mt-2 text-sm leading-relaxed text-slate">{featured.financialContext}</p>
                   </div>
                 )}
                 <TextLink href={`/projects/${featured.slug}`} className="mt-auto self-start">
-                  View Detailed Engagement Profile
+                  View Engagement Profile
                 </TextLink>
               </div>
             </article>
@@ -248,7 +302,7 @@ export default function HomePage() {
               intro="Silgo Meta's leadership directs the firm's strategy, operations and advisory work."
             />
             <TextLink href="/leadership" className="mt-8">
-              Leadership &amp; governance
+              Leadership
             </TextLink>
           </div>
           <div className="space-y-10 lg:col-span-7 lg:col-start-6">

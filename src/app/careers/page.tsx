@@ -40,7 +40,8 @@ const culture = [
   { title: "Development-focused", text: "Learning and growth built into every role." },
 ];
 
-const careersMailto = `mailto:${contact.email}?subject=${encodeURIComponent("Careers enquiry")}`;
+const careersEmail = contact.careersEmail;
+const careersMailto = `mailto:${careersEmail}?subject=${encodeURIComponent("Careers enquiry")}`;
 
 export default function CareersPage() {
   return (
@@ -124,7 +125,7 @@ export default function CareersPage() {
               href={careersMailto}
               className="inline-flex min-h-12 items-center justify-center rounded-sm border border-white/30 px-6 py-3 font-semibold text-white transition-colors hover:border-white"
             >
-              Email {contact.email}
+              Email {careersEmail}
             </a>
           </div>
         </Container>

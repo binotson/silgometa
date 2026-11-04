@@ -9,6 +9,11 @@ export const enquiryTypes = [
   "General enquiry",
 ] as const;
 
+export type EnquiryType = (typeof enquiryTypes)[number];
+
+export const isEnquiryType = (value: string): value is EnquiryType =>
+  (enquiryTypes as readonly string[]).includes(value);
+
 export type ContactInput = {
   name: string;
   email: string;
@@ -69,7 +74,7 @@ export function validateContact(input: ContactInput): ContactErrors {
   if (input.phone && !phonePattern.test(input.phone))
     errors.phone = "Please enter a valid phone number, or leave this field blank.";
 
-  if (!(enquiryTypes as readonly string[]).includes(input.enquiryType))
+  if (!isEnquiryType(input.enquiryType))
     errors.enquiryType = "Please choose the type of enquiry.";
 
   if (!input.message) errors.message = "Please tell us about your enquiry.";
@@ -85,9 +90,10 @@ export function validateContact(input: ContactInput): ContactErrors {
 }
 
 /** Plain-text email body. Sent as text only, so no HTML injection is possible. */
-export function formatContactEmail(input: ContactInput) {
+export function formatContactEmail(input: ContactInput, routedTo?: string) {
   return [
     `New website enquiry — ${input.enquiryType}`,
+    ...(routedTo ? [`Routed to: ${routedTo}`] : []),
     "",
     `Name: ${input.name}`,
     `Email: ${input.email}`,

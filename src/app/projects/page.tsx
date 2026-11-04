@@ -6,7 +6,7 @@ import { projects } from "@/content/projects";
 export const metadata = pageMetadata({
   title: "Projects & Case Studies",
   description:
-    "Selected Silgo Meta engagements in Commercial Paper readiness, real estate investor syndication, fintech architecture and transaction advisory.",
+    "Selected Silgo Meta engagements, including a representative Commercial Paper readiness and capital access profile, real estate, fintech architecture and transaction advisory.",
   path: "/projects",
 });
 
@@ -33,6 +33,8 @@ export default function ProjectsPage() {
           <p className="mt-10 max-w-3xl text-sm leading-relaxed text-muted">
             Case studies describe the scope of Silgo Meta&rsquo;s advisory role and the strategic impact reported for
             each mandate. Figures refer to programme or transaction values, not to fees or to assets owned by Silgo Meta.
+            Engagement profiles at the assessment or preparation stage do not represent approved, committed or disbursed
+            financing.
           </p>
         </Container>
       </Section>

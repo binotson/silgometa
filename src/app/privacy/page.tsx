@@ -42,8 +42,9 @@ export default function PrivacyPage() {
             <p>We do not sell your personal information or use it for unrelated marketing.</p>
             <h2>Sharing</h2>
             <p>
-              Enquiries are delivered to our team by email through a service provider acting on our behalf. We do not
-              otherwise share your information unless required by law.
+              Enquiries are delivered by email, through our company email service hosted by Hostinger, to the
+              Silgo Meta mailbox responsible for the type of enquiry you select. We do not otherwise share your
+              information unless required by law.
             </p>
             <h2>Your choices</h2>
             <p>

@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Info } from "lucide-react";
 import { PracticeMedia } from "@/components/media";
-import { CtaBand, PageHero, ProjectCard } from "@/components/sections";
-import { ButtonLink, Container, Section, SectionHeading } from "@/components/ui";
+import { CtaBand, Disclaimer, PageHero, ProjectCard } from "@/components/sections";
+import { ButtonLink, Container, Section, SectionHeading, TextLink } from "@/components/ui";
 import { pageMetadata } from "@/lib/metadata";
 import { getProject } from "@/content/projects";
 import { getService, services } from "@/content/services";
@@ -32,11 +31,13 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
   const related = service.relatedProjects.map(getProject).filter((p) => p !== undefined);
   const others = services.filter((s) => s.slug !== service.slug);
+  const described = service.offerings.every((o) => o.description);
+  const cpRelated = service.slug === "capital-access" || service.slug === "capital-markets";
 
   return (
     <>
       <PageHero
-        eyebrow={`Practice area ${service.number}`}
+        eyebrow={service.complementary ? "Complementary practice" : `Service pillar ${service.number}`}
         title={service.title}
         intro={service.intro}
         breadcrumbs={[
@@ -52,6 +53,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         </div>
       </PageHero>
 
+      {service.challenges && service.challenges.length > 0 && (
       <Section tone="white" labelledBy="challenges-heading">
         <Container className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
@@ -66,6 +68,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
           </ul>
         </Container>
       </Section>
+      )}
 
       <Section tone="mist" labelledBy="scope-heading">
         <Container>
@@ -75,20 +78,37 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             title="What the practice covers"
             intro="Each engagement is scoped to the client's needs. Services may be combined or delivered individually."
           />
-          <dl className="mt-12 grid gap-px overflow-hidden rounded-sm border border-line bg-line md:grid-cols-2 lg:grid-cols-3">
-            {service.offerings.map((o) => (
-              <div key={o.name} className="reveal bg-surface p-7">
-                <dt className="text-lg font-semibold text-navy-900">{o.name}</dt>
-                <dd className="mt-3 text-base leading-relaxed text-slate">{o.description}</dd>
-              </div>
-            ))}
-          </dl>
-          {service.note && (
-            <p className="mt-8 flex max-w-4xl gap-3 text-sm leading-relaxed text-muted">
-              <Info aria-hidden className="mt-0.5 size-4 shrink-0" />
-              {service.note}
-            </p>
+          {described ? (
+            <dl className="mt-12 grid gap-px overflow-hidden rounded-sm border border-line bg-line md:grid-cols-2 lg:grid-cols-3">
+              {service.offerings.map((o) => (
+                <div key={o.name} className="reveal bg-surface p-7">
+                  <dt className="text-lg font-semibold text-navy-900">{o.name}</dt>
+                  <dd className="mt-3 text-base leading-relaxed text-slate">{o.description}</dd>
+                </div>
+              ))}
+            </dl>
+          ) : (
+            <ol className="mt-12 grid gap-px overflow-hidden rounded-sm border border-line bg-line md:grid-cols-2">
+              {service.offerings.map((o, i) => (
+                <li key={o.name} className="reveal flex gap-4 bg-surface p-6">
+                  <span className="font-serif text-lg font-semibold text-gold-700">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="text-lg leading-snug font-medium text-navy-900">{o.name}</span>
+                </li>
+              ))}
+            </ol>
           )}
+          {cpRelated && (
+            <div className="mt-8 flex flex-col gap-4 rounded-sm border border-gold-500/50 bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-base text-navy-900">
+                <span className="font-semibold">Considering Commercial Paper?</span> See our programme advisory support
+                and readiness scope.
+              </p>
+              <TextLink href="/services/commercial-paper-advisory" className="shrink-0">
+                Commercial Paper Advisory
+              </TextLink>
+            </div>
+          )}
+          {service.note && <Disclaimer className="mt-8">{service.note}</Disclaimer>}
         </Container>
       </Section>
 
@@ -119,6 +139,9 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
                 </li>
               ))}
             </ol>
+            <TextLink href="/process" className="mt-8 text-base">
+              Our six-phase process
+            </TextLink>
           </div>
         </Container>
       </Section>
@@ -139,7 +162,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
       <Section tone="white" padding="py-14" labelledBy="other-heading">
         <Container>
           <h2 id="other-heading" className="text-sm font-semibold tracking-[0.14em] text-muted uppercase">
-            Other practice areas
+            Other services
           </h2>
           <ul className="mt-5 grid gap-4 md:grid-cols-3">
             {others.map((s) => (

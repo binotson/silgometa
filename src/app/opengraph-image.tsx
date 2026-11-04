@@ -41,8 +41,14 @@ export default async function OpengraphImage() {
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ width: 96, height: 3, background: "#AD7E3A", marginBottom: 32 }} />
-          <div style={{ fontSize: 54, lineHeight: 1.15, maxWidth: 1000 }}>{company.tagline}</div>
-          <div style={{ fontSize: 24, color: "#C8A064", marginTop: 26 }}>Strategic advisory · Abuja &amp; Kano, Nigeria</div>
+          <div style={{ display: "flex", flexDirection: "column", fontSize: 50, lineHeight: 1.15, maxWidth: 1040 }}>
+            {company.taglineLines.map((line) => (
+              <div key={line}>{line}</div>
+            ))}
+          </div>
+          <div style={{ fontSize: 24, color: "#C8A064", marginTop: 26 }}>
+            {`Strategic capital access · ${company.rcLabel} · Abuja & Kano, Nigeria`}
+          </div>
         </div>
       </div>
     ),

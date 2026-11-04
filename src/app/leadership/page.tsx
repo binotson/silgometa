@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CtaBand, LeaderCard, PageHero } from "@/components/sections";
 import { Container, Section, SectionHeading } from "@/components/ui";
 import { pageMetadata } from "@/lib/metadata";
@@ -51,7 +52,12 @@ export default function LeadershipPage() {
             </p>
             <p>
               Where mandates involve regulated activities, such as capital-market issuances, we work alongside the
-              appropriate licensed parties and regulatory processes rather than in place of them.
+              appropriate licensed parties and regulatory processes rather than in place of them. Our engagement
+              framework and regulatory position are set out on our{" "}
+              <Link href="/governance" className="font-medium text-navy-900 underline decoration-gold-500 underline-offset-4">
+                governance and compliance
+              </Link>{" "}
+              page.
             </p>
             <p className="text-base text-muted">
               Details of the board and senior advisers will be published here once confirmed.

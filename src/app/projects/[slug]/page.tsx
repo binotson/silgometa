@@ -44,7 +44,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
   return (
     <>
       <PageHero
-        eyebrow="Case study"
+        eyebrow={project.profileLabel ?? "Case study"}
         title={name}
         intro={project.client ? project.title : project.summary}
         breadcrumbs={[
@@ -75,7 +75,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
           <article className="space-y-12 lg:col-span-7">
             {project.objective && (
               <div>
-                <h2 className="text-sm font-semibold tracking-[0.14em] text-gold-700 uppercase">Client objective</h2>
+                <h2 className="text-sm font-semibold tracking-[0.14em] text-gold-700 uppercase">Engagement objective</h2>
                 <p className="mt-4 font-serif text-2xl leading-snug text-navy-900 sm:text-[1.75rem]">
                   {project.objective}
                 </p>
@@ -83,7 +83,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
             )}
             <div>
               <h2 className="text-sm font-semibold tracking-[0.14em] text-gold-700 uppercase">
-                {project.objective ? "Our role" : "Advisory scope"}
+                {project.objective ? "Our advisory role" : "Advisory scope"}
               </h2>
               <p
                 className={

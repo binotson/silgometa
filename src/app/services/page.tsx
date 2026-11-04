@@ -5,9 +5,9 @@ import { pageMetadata } from "@/lib/metadata";
 import { services } from "@/content/services";
 
 export const metadata = pageMetadata({
-  title: "Services & Practice Areas",
+  title: "Services",
   description:
-    "Capital markets and deal structuring, strategy and market development, technology and infrastructure, and business consulting and capacity building.",
+    "Strategic capital access and funding facilitation, capital markets readiness and transaction advisory, corporate finance, technology and infrastructure advisory, and institutional capacity building.",
   path: "/services",
 });
 
@@ -15,9 +15,9 @@ export default function ServicesPage() {
   return (
     <>
       <PageHero
-        eyebrow="Services & practice areas"
-        title="Advisory across finance, strategy, technology and institutions"
-        intro="Four practice areas that can be engaged individually or together, depending on the scope of your mandate."
+        eyebrow="Services"
+        title="Connecting enterprise to capital"
+        intro="Five service pillars, led by strategic capital access, plus a complementary strategy practice. They can be engaged individually or together, depending on the scope of your mandate."
         breadcrumbs={[{ href: "/services", label: "Services" }]}
       />
 
@@ -34,6 +34,9 @@ export default function ServicesPage() {
                   <p aria-hidden className="font-serif text-5xl font-semibold text-gold-500">
                     {s.number}
                   </p>
+                  {s.kicker && (
+                    <p className="mt-3 text-sm font-semibold tracking-[0.14em] text-gold-700 uppercase">{s.kicker}</p>
+                  )}
                   <h2
                     id={`${s.slug}-heading`}
                     className="mt-4 font-serif text-3xl leading-tight font-semibold text-navy-900 sm:text-4xl"
@@ -43,7 +46,7 @@ export default function ServicesPage() {
                   <p className="mt-5 text-lg leading-relaxed text-slate">{s.intro}</p>
                   <TextLink href={`/services/${s.slug}`} className="mt-7">
                     <span>
-                      View practice area <span className="sr-only">{s.title}</span>
+                      View service <span className="sr-only">{s.title}</span>
                     </span>
                   </TextLink>
                 </div>
@@ -60,6 +63,18 @@ export default function ServicesPage() {
                 </div>
               </section>
             ))}
+          </div>
+          <div className="mt-6 flex flex-col gap-4 rounded-sm border border-gold-500/50 bg-paper p-7 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="font-serif text-2xl font-semibold text-navy-900">Commercial Paper Advisory</h2>
+              <p className="mt-2 text-base leading-relaxed text-slate">
+                Preliminary eligibility, funding requirement evaluation and introductions to licensed fund arrangers
+                and issuing houses.
+              </p>
+            </div>
+            <TextLink href="/services/commercial-paper-advisory" className="shrink-0">
+              Commercial Paper Advisory
+            </TextLink>
           </div>
         </Container>
       </Section>

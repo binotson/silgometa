@@ -38,7 +38,9 @@ export type Project = {
   scope: string;
   status?: string;
   impact: string;
-  impactLabel?: "Results" | "Intended outcome";
+  impactLabel?: "Results" | "Intended outcome" | "Target outcome";
+  /** Overrides the "Case study" label, e.g. "Representative engagement profile". */
+  profileLabel?: string;
   figure?: { label: string; value: string };
   financialContext?: string;
   scopeItems: string[];
@@ -50,36 +52,41 @@ const allProjects: Project[] = [
     slug: "commercial-paper-readiness",
     published: true,
     featured: true,
+    // Representative engagement profile (approved corporate profile, section 9).
+    // The client is not named. Present only as an ongoing engagement while
+    // the mandate, activities and status can be substantiated.
+    profileLabel: "Representative engagement profile",
     sector: "Industrial & Manufacturing",
-    title: "Commercial Paper Readiness & Capital Market Advisory",
-    practice: "Capital Markets & Deal Structuring",
+    title: "Industrial Manufacturing — Commercial Paper Readiness and Capital Access Facilitation",
+    practice: "Capital Markets Readiness & Transaction Advisory",
     serviceSlug: "capital-markets",
     summary:
-      "Commercial Paper eligibility assessment and readiness preparation for a multi-billion naira capital market transaction.",
+      "Preliminary Commercial Paper eligibility and readiness assessment, and capital access facilitation, for a corporate enterprise seeking multi-billion-naira financing.",
     objective:
-      "Evaluate institutional readiness for a multi-billion naira capital market transaction to support operational expansion and working capital needs.",
+      "Support a corporate enterprise seeking access to multi-billion-naira financing for working capital, operational expansion, and broader financial restructuring.",
     scope:
-      "Conducted comprehensive Commercial Paper (CP) eligibility assessments, mapped corporate governance and financial documentation requirements, and identified key operational readiness prerequisites prior to market entry.",
-    status: "Diagnostic Assessment & Preparation Phase",
+      "Conduct preliminary Commercial Paper eligibility and readiness assessments, review corporate and financial documentation requirements, identify transaction preparation gaps, and facilitate engagement with prospective licensed fund arrangers.",
+    status: "Diagnostic assessment and transaction preparation",
     impact:
-      "Provide actionable clarity on transaction viability and prepare the enterprise for seamless engagement with issuing houses and financial arrangers.",
-    impactLabel: "Intended outcome",
-    figure: { label: "Target transaction size", value: "₦3bn–₦5bn" },
+      "Prepare the enterprise for evaluation by suitable institutional funding partners and support the progression of its proposed financing transaction.",
+    impactLabel: "Target outcome",
     financialContext:
-      "₦3 billion – ₦5 billion target transaction size (indicative funding objective; does not represent an approved facility or funds raised).",
+      "Proposed Commercial Paper financing programme, subject to final programme sizing, transaction due diligence, regulatory requirements, investor demand, and approval by relevant institutions.",
     scopeItems: [
-      "Commercial Paper eligibility assessment",
-      "Governance and financial documentation mapping",
-      "Operational readiness prerequisites",
+      "Preliminary Commercial Paper eligibility and readiness assessment",
+      "Corporate and financial documentation review",
+      "Transaction preparation gap analysis",
+      "Facilitation of engagement with prospective licensed fund arrangers",
     ],
+    note: "This profile describes an engagement at the diagnostic and preparation stage. It does not represent an approved, committed or disbursed facility. Any financing remains subject to due diligence, regulatory requirements and approval by the relevant licensed institutions.",
   },
   {
     slug: "northern-commercial-real-estate",
     published: true,
     client: "Northern Commercial Real Estate Initiative",
     title: "Land-asset packaging and investor syndication",
-    practice: "Capital Markets & Deal Structuring",
-    serviceSlug: "capital-markets",
+    practice: "Corporate Finance & Strategic Advisory",
+    serviceSlug: "corporate-finance",
     locations: "Kano and Abuja",
     summary:
       "Land-asset packaging, commercial master-planning and investor syndication in Kano and Abuja.",
@@ -98,7 +105,7 @@ const allProjects: Project[] = [
     published: true,
     client: "Fintech & Enterprise Digital Architecture",
     title: "Digital financial systems with Brilliant eSystems",
-    practice: "Technology & Infrastructure",
+    practice: "Technology & Infrastructure Advisory",
     serviceSlug: "infrastructure-technology",
     summary:
       "Co-development of digital financial systems, secure payment rails and enterprise software with Brilliant eSystems.",

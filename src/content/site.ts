@@ -6,8 +6,12 @@
  * in approved source material.
  */
 
+import { engagementProcess } from "./corporate";
+import { services } from "./services";
+
+/** Canonical origin. The live site is served at the bare domain (no www). */
 export const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.silgometa.com.ng"
+  process.env.NEXT_PUBLIC_SITE_URL || "https://silgometa.com.ng"
 ).replace(/\/$/, "");
 
 /**
@@ -23,20 +27,41 @@ export const company = {
   legalName: "SILGO META LIMITED",
   name: "Silgo Meta Limited",
   shortName: "Silgo Meta",
-  tagline: "Structuring Capital. Advancing Enterprise.",
+  tagline: "Connecting Enterprise to Capital. Structuring Opportunities. Advancing Growth.",
+  /** Hero-sized form of the tagline, split for display. */
+  taglineLines: ["Connecting Enterprise to Capital.", "Structuring Opportunities.", "Advancing Growth."],
+  positioning: [
+    "Strategic Capital Access",
+    "Corporate Financial Advisory",
+    "Capital Markets Facilitation",
+    "Technology & Infrastructure",
+  ],
   description:
-    "Silgo Meta Limited helps businesses, institutions, and investors prepare for funding, structure transactions, and translate growth strategies into practical execution.",
-  established: "2023-02-17",
-  establishedLabel: "17 February 2023",
-  incorporation:
-    "Incorporated as a private company limited by shares under the Companies and Allied Matters Act (CAMA) 2020.",
-  website: "https://www.silgometa.com.ng",
+    "Silgo Meta Limited is an independent corporate advisory and strategic financial facilitation company connecting businesses across Nigeria with suitable funding opportunities.",
+  /** Corporate Affairs Commission (CAC) registration number. */
+  rcNumber: "679305",
+  rcLabel: "RC No. 679305",
+  registration:
+    "Registered in Nigeria with the Corporate Affairs Commission (CAC) under RC No. 679305.",
+  /**
+   * CAC registration is a company registration only. It is not an SEC, CBN or
+   * other financial-services licence or authorization.
+   */
+  registrationDistinction:
+    "CAC company registration is not a licence or authorization from the Securities and Exchange Commission (SEC), the Central Bank of Nigeria (CBN) or any other financial-services regulator.",
+  locations: "Abuja | Kano | Nigeria",
+  website: siteUrl,
+  // PENDING VERIFICATION (Phase 1 audit, V1): the previously published
+  // establishment date (17 February 2023) and "incorporated under CAMA 2020"
+  // statement appear inconsistent with RC No. 679305. They are not displayed
+  // until confirmed against the CAC Certificate of Incorporation.
 } as const;
 
 export const contact = {
   phone: "+234-906-8888-488",
   phoneHref: "tel:+2349068888488",
   email: "infor@silgometa.com.ng",
+  careersEmail: "secretariat@silgometa.com.ng",
   directory: [
     { label: "General enquiries", email: "infor@silgometa.com.ng" },
     { label: "Secretariat", email: "secretariat@silgometa.com.ng" },
@@ -79,14 +104,29 @@ export const offices: Office[] = [
 export const mapSearchUrl = (query: string) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 
-export const mainNav = [
-  { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
+export type NavLink = { href: string; label: string; description?: string };
+export type NavItem = NavLink & { children?: NavLink[] };
+
+export const aboutNav: NavLink[] = [
+  { href: "/about", label: "About Us", description: "Our name, philosophy and mandate" },
+  { href: "/corporate-overview", label: "Corporate Overview", description: "What we do and how we create value" },
+  { href: "/leadership", label: "Leadership", description: "The team directing our mandates" },
+  { href: "/governance", label: "Governance & Compliance", description: "Engagement standards and regulatory position" },
+];
+
+export const servicesNav: NavLink[] = [
+  ...services.map((s) => ({ href: `/services/${s.slug}`, label: s.title })),
+  { href: "/services/commercial-paper-advisory", label: "Commercial Paper Advisory" },
+];
+
+export const mainNav: NavItem[] = [
+  { href: "/about", label: "About", children: aboutNav },
+  { href: "/services", label: "Services", children: [{ href: "/services", label: "All services" }, ...servicesNav] },
+  { href: "/sectors", label: "Sectors" },
+  { href: "/process", label: "Our Process" },
   { href: "/projects", label: "Projects" },
-  { href: "/leadership", label: "Leadership" },
   { href: "/insights", label: "Insights" },
-  { href: "/careers", label: "Careers" },
-] as const;
+];
 
 export const values = [
   {
@@ -102,12 +142,12 @@ export const values = [
   {
     letter: "L",
     name: "Leadership",
-    text: "Setting regional and international benchmarks in capital raising and technology integration.",
+    text: "Pursuing high professional standards in capital access, advisory and technology integration.",
   },
   {
     letter: "G",
     name: "Growth",
-    text: "Unlocking sustainable revenue models and expanding market capitalization.",
+    text: "Supporting sustainable revenue models and long-term enterprise value.",
   },
   {
     letter: "O",
@@ -147,22 +187,5 @@ export const leaders: Leader[] = [
   },
 ];
 
-/** Engagement process shown on service pages. Client to review wording. */
-export const engagementSteps = [
-  {
-    title: "Initial consultation",
-    text: "A confidential discussion to understand your objectives, constraints and timelines.",
-  },
-  {
-    title: "Scoping & diagnostics",
-    text: "We define the advisory scope, review relevant documents and agree deliverables.",
-  },
-  {
-    title: "Structuring & advisory",
-    text: "We develop the recommended structure, strategy or solution and coordinate the relevant stakeholders.",
-  },
-  {
-    title: "Execution support",
-    text: "We support implementation alongside your team, advisers and counterparties.",
-  },
-] as const;
+/** The six-phase client engagement process (see src/content/corporate.ts). */
+export const engagementSteps = engagementProcess.phases.map((p) => ({ title: p.title, short: p.short, text: p.text }));

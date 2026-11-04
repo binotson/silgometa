@@ -1,10 +1,13 @@
 # SILGO META LIMITED — Corporate Website
 
-The corporate website for **SILGO META LIMITED**, a Nigerian strategic advisory firm working across
-corporate deal structuring and capital markets, strategic and marketing consultancy, infrastructure
-and technology solutions, and general business consulting.
+The corporate website for **SILGO META LIMITED** (RC No. 679305), an independent corporate advisory
+and strategic financial facilitation company connecting businesses with suitable funding
+opportunities. Five service pillars: strategic capital access and funding facilitation, capital
+markets readiness and transaction advisory, corporate finance and strategic advisory, technology and
+infrastructure advisory, and business development and institutional capacity building, plus a
+complementary strategy and market development practice.
 
-- Production domain: <https://www.silgometa.com.ng>
+- Production domain: <https://silgometa.com.ng> (hosted on Hostinger)
 - Repository: <https://github.com/binotson/silgometa>
 
 ## Technology stack
@@ -39,7 +42,7 @@ Open <http://localhost:3000>. If port 3000 is in use, run `npm run dev -- --port
 | `npm start`         | Serve the production build                  |
 | `npm run lint`      | ESLint                                      |
 | `npm run typecheck` | Generate route types and run `tsc --noEmit` |
-| `npm test`          | Unit tests (contact-form validation)        |
+| `npm test`          | Unit tests (contact validation, email routing, contact API with a mocked SMTP transport) |
 | `npm run check`     | Lint, type-check and test                   |
 
 ## Project structure
@@ -49,8 +52,8 @@ src/
   app/                 Routes (pages, API route, sitemap, robots, icons, OG image)
     api/contact/       Contact form endpoint (server-side)
   components/          Header, footer, logo, shared sections, contact form
-  content/             ALL company content: site facts, services, projects, insights, brand
-  lib/                 Contact validation (shared client/server) and metadata helpers
+  content/             ALL company content: site facts, corporate profile, services, projects, insights, brand
+  lib/                 Contact validation (shared), server-only email routing and SMTP mailer, metadata helpers
 ```
 
 Company content lives in `src/content/`. Edit those files to update text; pages render from them.
@@ -61,27 +64,46 @@ See `.env.example`. None are required to run the site locally.
 
 | Variable               | Purpose                                                                    |
 | ---------------------- | -------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL` | Canonical URL. Defaults to `https://www.silgometa.com.ng`.                 |
-| `ALLOW_INDEXING`       | `true` only in production. Otherwise robots.txt and meta tags block indexing. Vercel production is detected automatically. |
-| `RESEND_API_KEY`       | Server-side API key for email delivery (contact form).                     |
-| `CONTACT_FROM_EMAIL`   | Verified sender, e.g. `Silgo Meta Website <website@silgometa.com.ng>`.     |
-| `CONTACT_TO_EMAIL`     | Recipient(s), comma-separated. Defaults to `infor@silgometa.com.ng`.        |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URL. Defaults to `https://silgometa.com.ng`. Build time.         |
+| `ALLOW_INDEXING`       | `true` only in production. Otherwise robots.txt and meta tags block indexing. Build time. Vercel production is detected automatically. |
+| `SMTP_HOST`            | `smtp.hostinger.com`                                                       |
+| `SMTP_PORT`            | `465`                                                                      |
+| `SMTP_SECURE`          | `true` (SSL/TLS)                                                           |
+| `SMTP_USER`            | `infor@silgometa.com.ng`                                                   |
+| `SMTP_PASS`            | Password of the `infor@` mailbox. Host environment only; never commit.     |
+| `CONTACT_FROM_EMAIL`   | `infor@silgometa.com.ng` (must match `SMTP_USER`).                         |
+
+"Build time" variables are baked into the prerendered pages: redeploy (rebuild) after changing them.
+SMTP variables are read by the server at request time: restart or redeploy the app after changing them.
 
 Never commit `.env*` files; they are ignored by Git.
 
 ## Contact form
 
 The form validates input in the browser and again on the server (`src/app/api/contact/route.ts`),
-with a honeypot field, a minimum completion time, size limits and best-effort per-IP rate limiting.
+with a honeypot field, a minimum completion time (a missing start time counts as automated), size
+limits, and best-effort rate limiting per IP, per email address and overall.
 
-Email delivery uses the [Resend](https://resend.com) API. To enable it:
+Email is sent with [Nodemailer](https://nodemailer.com) through Hostinger SMTP, from
+`infor@silgometa.com.ng`, with the visitor's address as Reply-To. The recipient is chosen **on the
+server** from the enquiry type (`src/lib/contact-routing.ts`); the browser cannot supply one:
 
-1. Create a Resend account and verify the `silgometa.com.ng` domain (adds DNS records).
-2. Create an API key and set `RESEND_API_KEY`, `CONTACT_FROM_EMAIL` and `CONTACT_TO_EMAIL` on the host.
-3. Redeploy, submit a test enquiry and confirm it arrives.
+| Enquiry type                             | Recipient                      |
+| ---------------------------------------- | ------------------------------ |
+| Capital markets & deal structuring       | `mdahmad@silgometa.com.ng`     |
+| Strategy & marketing consultancy         | `sales@silgometa.com.ng`       |
+| Infrastructure & technology              | `support@silgometa.com.ng`     |
+| Business consulting & capacity building  | `fadil@silgometa.com.ng`       |
+| Careers                                  | `secretariat@silgometa.com.ng` |
+| General enquiry                          | `infor@silgometa.com.ng`       |
 
-**Until this is configured, the form does not send messages.** It tells the visitor that online
-sending is not yet enabled and offers a pre-filled email to `infor@silgometa.com.ng` instead.
+The API reports success only after the SMTP server accepts the message. SMTP errors are logged by
+code only and never shown to visitors. **Until `SMTP_PASS` is configured, the form does not send
+messages.** It tells the visitor that online sending is not yet enabled and offers a pre-filled
+email to `infor@silgometa.com.ng` instead.
+
+After deployment, submit one test enquiry per enquiry type and confirm each arrives in the right
+mailbox.
 
 ## Official logo and brand colours
 
@@ -106,19 +128,25 @@ navy `#10243A` and warm white `#FAF9F6`. Accessible text shades are defined in
 
 ## Content requiring client confirmation
 
-The site uses only facts from the supplied company profile. Before launch, please confirm:
+The site uses only facts from the supplied company profile. Please confirm:
+
+- **Registration details**: RC No. 679305 is displayed. The previously published establishment date
+  (17 February 2023) and "incorporated under CAMA 2020" statement appear inconsistent with that RC
+  number and are hidden until confirmed against the CAC Certificate of Incorporation
+  (`src/content/site.ts`).
+- **Regulatory review**: the fee model (including success-related fees) and the scope of introductions
+  should be reviewed by Nigerian counsel against the Investments and Securities Act 2025 and SEC rules.
+- **Representative engagement profile** (featured Commercial Paper readiness profile): present it as
+  an ongoing engagement only while the mandate and status can be substantiated.
 
 - **Case studies** (`src/content/projects.ts`): permission to publish client names (CFAO International,
-  Brilliant eSystems) and figures (₦3bn–₦5bn target transaction size on the featured, unnamed
-  Commercial Paper readiness profile; ₦3bn–₦20bn+ capital markets headline range; ₦1,350,000,000
-  reported transaction value). The other case studies do not yet have a client objective or
+  Brilliant eSystems) and the ₦1,350,000,000 reported transaction value. The other case studies do not yet have a client objective or
   engagement status; add them once verified. Set `published: false` to hide any entry.
 - **Leadership** (`src/content/site.ts`): the summaries are based on job titles only. Supply approved
   biographies and, if desired, approved headshots. Board and senior adviser details are not published.
 - **Insights** (`src/content/insights.ts`): the four topics are labelled as outlines (forthcoming).
   Replace with approved article text, then set `status: "published"` and a real `publishedOn` date.
-- **Drafted copy for review**: About page mission and vision, the four-step engagement process,
-  the governance paragraph on the Leadership page, the careers culture descriptions and the
+- **Drafted copy for review**: About page mission and vision, the governance paragraph on the Leadership page, the careers culture descriptions and the
   privacy notice (which should be reviewed by counsel against the Nigeria Data Protection Act 2023).
 - **Photography and video**: the site uses licensed stock media (see "Photography and video" below). Genuine company photography can replace it at any time.
 - **Maps**: office links search Google Maps by address; no coordinates are assumed. An embedded
@@ -152,9 +180,14 @@ Guidelines when replacing media:
 
 Any Node.js host that supports Next.js 16 works. [Vercel](https://vercel.com) is the simplest:
 
+The production site runs on Hostinger as a Node.js app built from this repository (`npm run build`,
+`npm start`). Set the environment variables above in Hostinger and redeploy.
+
+Vercel also works:
+
 1. Import the GitHub repository into Vercel (framework preset: Next.js).
 2. Set the environment variables above for the Production environment.
-3. Add `www.silgometa.com.ng` (and `silgometa.com.ng`, redirecting to `www`) as project domains.
+3. Add `silgometa.com.ng` (and optionally `www.silgometa.com.ng`, redirecting to it) as project domains.
 4. Update DNS at the domain registrar as Vercel instructs. HTTPS certificates are issued automatically.
 
 Preview deployments are not indexed. Do not change DNS records until the production deployment has

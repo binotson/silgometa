@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ArrowUpRight, Mail, Phone } from "lucide-react";
+import { ArrowUpRight, Info, Mail, Phone } from "lucide-react";
 import { ButtonLink, Container, Eyebrow, Section, SectionHeading, cn } from "@/components/ui";
 import { contact, values, type Leader } from "@/content/site";
 import { projectName, type Project } from "@/content/projects";
@@ -138,16 +138,17 @@ export function CtaBand({
   );
 }
 
-export function ValuesSection({ tone = "white" }: { tone?: "white" | "mist" | "paper" }) {
+export function ValuesSection({
+  tone = "white",
+  intro = "Five principles that guide how we advise, structure and deliver for our clients.",
+}: {
+  tone?: "white" | "mist" | "paper";
+  intro?: string;
+}) {
   return (
     <Section tone={tone} labelledBy="values-heading">
       <Container>
-        <SectionHeading
-          id="values-heading"
-          eyebrow="Our values"
-          title="The S.I.L.G.O. framework"
-          intro="Five principles that guide how we advise, structure and deliver for our clients."
-        />
+        <SectionHeading id="values-heading" eyebrow="Our values" title="The S.I.L.G.O. framework" intro={intro} />
         <ol className="mt-14 grid border-t border-navy-900/15 sm:grid-cols-2 lg:grid-cols-5">
           {values.map((v, i) => (
             <li
@@ -179,6 +180,7 @@ export function ProjectCard({ project, headingLevel = "h3" }: { project: Project
       <p className="text-sm font-semibold tracking-[0.12em] text-gold-700 uppercase">
         {project.sector ?? project.practice}
       </p>
+      {project.profileLabel && <p className="mt-1 text-sm text-muted">{project.profileLabel}</p>}
       <Heading className="mt-4 font-serif text-2xl leading-snug font-semibold text-navy-900">
         <Link href={`/projects/${project.slug}`} className="after:absolute after:inset-0 after:content-['']">
           {projectName(project)}
@@ -224,6 +226,88 @@ export function InsightCard({ insight, headingLevel = "h3" }: { insight: Insight
       </Heading>
       <p className="mt-3 flex-1 text-base leading-relaxed text-slate">{insight.summary}</p>
     </article>
+  );
+}
+
+/** A short regulatory or qualifying note. */
+export function Disclaimer({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <p
+      className={cn(
+        "flex max-w-4xl gap-3 rounded-sm border border-line bg-mist p-5 text-sm leading-relaxed text-muted",
+        className,
+      )}
+    >
+      <Info aria-hidden className="mt-0.5 size-4 shrink-0 text-gold-700" />
+      <span>{children}</span>
+    </p>
+  );
+}
+
+type Column<K extends string> = { key: K; label: string };
+
+/**
+ * Accessible data table. A real <table> from the md breakpoint up; on small
+ * screens each row becomes a stacked card so nothing scrolls sideways.
+ * The first column is the row header.
+ */
+export function DataTable<K extends string>({
+  caption,
+  columns,
+  rows,
+  className,
+}: {
+  caption: string;
+  columns: Column<K>[];
+  rows: Record<K, string>[];
+  className?: string;
+}) {
+  const [head, ...rest] = columns;
+  return (
+    <div className={className}>
+      <table className="hidden w-full border-collapse overflow-hidden rounded-sm border border-line bg-surface text-left md:table">
+        <caption className="sr-only">{caption}</caption>
+        <thead className="bg-inverse text-white">
+          <tr>
+            {columns.map((c) => (
+              <th key={c.key} scope="col" className="px-6 py-4 text-sm font-semibold tracking-[0.08em] uppercase">
+                {c.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-line">
+          {rows.map((r) => (
+            <tr key={r[head.key]} className="align-top even:bg-paper">
+              <th scope="row" className="px-6 py-5 text-base font-semibold text-navy-900">
+                {r[head.key]}
+              </th>
+              {rest.map((c) => (
+                <td key={c.key} className="px-6 py-5 text-base leading-relaxed text-slate">
+                  {r[c.key]}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <ul aria-label={caption} className="space-y-4 md:hidden">
+        {rows.map((r) => (
+          <li key={r[head.key]} className="rounded-sm border border-line bg-surface p-5">
+            <p className="font-serif text-lg font-semibold text-navy-900">{r[head.key]}</p>
+            <dl className="mt-3 space-y-3">
+              {rest.map((c) => (
+                <div key={c.key}>
+                  <dt className="text-xs font-semibold tracking-[0.12em] text-gold-700 uppercase">{c.label}</dt>
+                  <dd className="mt-1 text-base leading-relaxed text-slate">{r[c.key]}</dd>
+                </div>
+              ))}
+            </dl>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

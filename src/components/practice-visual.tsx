@@ -320,6 +320,10 @@ const visuals: Record<string, (props: { className?: string }) => ReactNode> = {
   "strategic-marketing": StrategicMarketing,
   "infrastructure-technology": InfrastructureTechnology,
   "business-consulting": BusinessConsulting,
+  // New pillars reuse illustrations whose own slots show photography, so no
+  // visual appears twice.
+  "capital-access": StrategicMarketing,
+  "corporate-finance": CapitalMarkets,
 };
 
 export function PracticeVisual({ slug, className }: { slug: string; className?: string }) {
