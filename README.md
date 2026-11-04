@@ -70,8 +70,10 @@ See `.env.example`. None are required to run the site locally.
 | `SMTP_PORT`            | `465`                                                                      |
 | `SMTP_SECURE`          | `true` (SSL/TLS)                                                           |
 | `SMTP_USER`            | `infor@silgometa.com.ng`                                                   |
-| `SMTP_PASS`            | Password of the `infor@` mailbox. Host environment only; never commit.     |
-| `CONTACT_FROM_EMAIL`   | `infor@silgometa.com.ng` (must match `SMTP_USER`).                         |
+| `SMTP_PASSWORD`        | Password of the `infor@` mailbox. Host environment only; never commit. (`SMTP_PASS` also accepted.) |
+| `EMAIL_FROM`           | `Silgo Meta Limited <infor@silgometa.com.ng>` (address must match `SMTP_USER`; `CONTACT_FROM_EMAIL` also accepted). |
+| `CONTACT_SEND_ACKNOWLEDGEMENT` | Optional, default `true`. Sends visitors a receipt with their reference number. |
+| `SMTP_EHLO_NAME`       | Optional. SMTP greeting name; defaults to the sender's domain.              |
 
 "Build time" variables are baked into the prerendered pages: redeploy (rebuild) after changing them.
 SMTP variables are read by the server at request time: restart or redeploy the app after changing them.
@@ -85,8 +87,18 @@ with a honeypot field, a minimum completion time (a missing start time counts as
 limits, and best-effort rate limiting per IP, per email address and overall.
 
 Email is sent with [Nodemailer](https://nodemailer.com) through Hostinger SMTP, from
-`infor@silgometa.com.ng`, with the visitor's address as Reply-To. The recipient is chosen **on the
-server** from the enquiry type (`src/lib/contact-routing.ts`); the browser cannot supply one:
+`Silgo Meta Limited <infor@silgometa.com.ng>`, with the visitor's address as Reply-To, so staff
+simply press **Reply** to answer the visitor from their own company mailbox. The recipient is chosen
+**on the server** from the enquiry type (`src/lib/contact-routing.ts`); the browser cannot supply one.
+There is no fallback: if a department mailbox rejects mail, the visitor is told it could not be sent
+and the server logs which mailbox failed.
+
+Each enquiry gets a reference (e.g. `SM-20261104-7F3K9Q`) shown on screen and used in the
+professional HTML + plain-text notification (subject:
+`New Website Enquiry – Capital Markets – SILGO META LIMITED [reference]`). After the department
+email is accepted, the visitor receives an acknowledgement with the reference (it never repeats
+visitor-supplied text, so the form cannot be used to relay spam). Links can pre-select a
+category: `/contact?enquiry=careers` (keys in `src/lib/contact.ts`).
 
 | Enquiry type                             | Recipient                      |
 | ---------------------------------------- | ------------------------------ |
@@ -97,8 +109,10 @@ server** from the enquiry type (`src/lib/contact-routing.ts`); the browser canno
 | Careers                                  | `secretariat@silgometa.com.ng` |
 | General enquiry                          | `infor@silgometa.com.ng`       |
 
-The API reports success only after the SMTP server accepts the message. SMTP errors are logged by
-code only and never shown to visitors. **Until `SMTP_PASS` is configured, the form does not send
+The API reports success only after the SMTP server accepts the department email. Server logs record
+the reference, department mailbox and SMTP response (never visitor details or credentials), e.g.
+`Enquiry SM-… delivered to Capital Markets <mdahmad@…>, SMTP accepted: 250 …`. Errors such as
+`EAUTH` (wrong password) are logged with a hint and never shown to visitors. **Until `SMTP_PASSWORD` is configured, the form does not send
 messages.** It tells the visitor that online sending is not yet enabled and offers a pre-filled
 email to `infor@silgometa.com.ng` instead.
 

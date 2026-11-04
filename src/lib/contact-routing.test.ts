@@ -51,8 +51,27 @@ describe("readSmtpConfig", () => {
       user: "infor@silgometa.com.ng",
       pass: "test-only",
       from: "infor@silgometa.com.ng",
+      fromName: "Silgo Meta Limited",
       ehloName: "silgometa.com.ng",
     });
+  });
+
+  it("parses EMAIL_FROM and accepts SMTP_PASSWORD", () => {
+    const c = readSmtpConfig({
+      ...base,
+      SMTP_PASS: undefined,
+      CONTACT_FROM_EMAIL: undefined,
+      SMTP_PASSWORD: "pw",
+      EMAIL_FROM: "Silgo Meta Limited <infor@silgometa.com.ng>",
+    });
+    expect(c).toMatchObject({ pass: "pw", from: "infor@silgometa.com.ng", fromName: "Silgo Meta Limited" });
+  });
+
+  it("falls back to SMTP_USER when EMAIL_FROM is malformed or unsafe", () => {
+    for (const bad of ["not an address", "a@b.com, c@d.com", "Evil\r\nBcc: x@y.z <infor@silgometa.com.ng>"]) {
+      const c = readSmtpConfig({ ...base, CONTACT_FROM_EMAIL: undefined, EMAIL_FROM: bad });
+      expect(c).toMatchObject({ from: "infor@silgometa.com.ng", fromName: "Silgo Meta Limited" });
+    }
   });
 
   it("greets the SMTP server with the sender's domain, not [127.0.0.1]", () => {

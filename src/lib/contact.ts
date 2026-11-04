@@ -14,6 +14,22 @@ export type EnquiryType = (typeof enquiryTypes)[number];
 export const isEnquiryType = (value: string): value is EnquiryType =>
   (enquiryTypes as readonly string[]).includes(value);
 
+/**
+ * URL keys for pre-selecting a category, e.g. /contact?enquiry=careers.
+ * Only pre-fills the form; the server still routes by the validated type.
+ */
+export const enquirySlugs: Record<string, EnquiryType> = {
+  "capital-markets": "Capital markets & deal structuring",
+  "strategy-marketing": "Strategy & marketing consultancy",
+  "infrastructure-technology": "Infrastructure & technology",
+  "business-consulting": "Business consulting & capacity building",
+  careers: "Careers",
+  general: "General enquiry",
+};
+
+/** Contact-page link that pre-selects an enquiry category. */
+export const contactHref = (slug: keyof typeof enquirySlugs) => `/contact?enquiry=${slug}#enquiry`;
+
 export type ContactInput = {
   name: string;
   email: string;

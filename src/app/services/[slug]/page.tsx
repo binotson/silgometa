@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PracticeMedia } from "@/components/media";
 import { CtaBand, Disclaimer, PageHero, ProjectCard } from "@/components/sections";
 import { ButtonLink, Container, Section, SectionHeading, TextLink } from "@/components/ui";
+import { contactHref } from "@/lib/contact";
 import { pageMetadata } from "@/lib/metadata";
 import { getProject } from "@/content/projects";
 import { getService, services } from "@/content/services";
@@ -47,7 +48,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         media={<PracticeMedia slug={service.slug} preload onDark className="aspect-[16/10]" />}
       >
         <div className="mt-10">
-          <ButtonLink href="/contact" variant="gold" arrow>
+          <ButtonLink href={contactHref(service.enquiry)} variant="gold" arrow>
             Discuss a Project
           </ButtonLink>
         </div>

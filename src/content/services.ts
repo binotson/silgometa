@@ -27,6 +27,8 @@ export type Service = {
   relatedProjects: string[];
   /** Complementary practice, listed after the five core pillars. */
   complementary?: boolean;
+  /** Contact-form category pre-selected by this service's call to action. */
+  enquiry: "capital-markets" | "strategy-marketing" | "infrastructure-technology" | "business-consulting";
   note?: string;
 };
 
@@ -36,6 +38,7 @@ const advisoryNote =
 export const services: Service[] = [
   {
     slug: "capital-access",
+    enquiry: "capital-markets",
     number: "01",
     title: "Strategic Capital Access & Funding Facilitation",
     shortTitle: "Capital Access",
@@ -73,6 +76,7 @@ export const services: Service[] = [
   },
   {
     slug: "capital-markets",
+    enquiry: "capital-markets",
     number: "02",
     title: "Capital Markets Readiness & Transaction Advisory",
     shortTitle: "Capital Markets Readiness",
@@ -108,6 +112,7 @@ export const services: Service[] = [
   },
   {
     slug: "corporate-finance",
+    enquiry: "capital-markets",
     number: "03",
     title: "Corporate Finance & Strategic Advisory",
     shortTitle: "Corporate Finance",
@@ -136,6 +141,7 @@ export const services: Service[] = [
   },
   {
     slug: "infrastructure-technology",
+    enquiry: "infrastructure-technology",
     number: "04",
     title: "Technology & Infrastructure Advisory",
     shortTitle: "Technology & Infrastructure",
@@ -169,6 +175,7 @@ export const services: Service[] = [
   },
   {
     slug: "business-consulting",
+    enquiry: "business-consulting",
     number: "05",
     title: "Business Development & Institutional Capacity Building",
     shortTitle: "Business Development",
@@ -201,6 +208,7 @@ export const services: Service[] = [
   },
   {
     slug: "strategic-marketing",
+    enquiry: "strategy-marketing",
     number: "06",
     title: "Strategy & Market Development",
     shortTitle: "Strategy & Markets",

@@ -2,6 +2,7 @@ import { AlertTriangle } from "lucide-react";
 import { PracticeMedia } from "@/components/media";
 import { CtaBand, Disclaimer, PageHero } from "@/components/sections";
 import { ButtonLink, Container, Section, SectionHeading, TextLink } from "@/components/ui";
+import { contactHref } from "@/lib/contact";
 import { pageMetadata } from "@/lib/metadata";
 import { commercialPaper, sectorSolutions } from "@/content/corporate";
 
@@ -26,7 +27,7 @@ export default function CommercialPaperPage() {
         media={<PracticeMedia slug="capital-markets" preload onDark className="aspect-[16/10]" />}
       >
         <div className="mt-10">
-          <ButtonLink href="/contact" variant="gold" arrow>
+          <ButtonLink href={contactHref("capital-markets")} variant="gold" arrow>
             Discuss CP Readiness
           </ButtonLink>
         </div>

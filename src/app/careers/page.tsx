@@ -2,6 +2,7 @@ import { GraduationCap, Briefcase } from "lucide-react";
 import { PageHero } from "@/components/sections";
 import { ButtonLink, Container, Section, SectionHeading } from "@/components/ui";
 import { pageMetadata } from "@/lib/metadata";
+import { contactHref } from "@/lib/contact";
 import { contact } from "@/content/site";
 
 export const metadata = pageMetadata({
@@ -118,7 +119,7 @@ export default function CareersPage() {
             personal documents until we request them.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
-            <ButtonLink href="/contact" variant="gold" arrow>
+            <ButtonLink href={contactHref("careers")} variant="gold" arrow>
               Careers enquiry form
             </ButtonLink>
             <a

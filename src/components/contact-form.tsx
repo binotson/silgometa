@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "rea
 import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 import {
   buildMailtoFallback,
+  enquirySlugs,
   enquiryTypes,
   limits,
   normalizeContact,
@@ -17,7 +18,7 @@ import { cn } from "@/components/ui";
 type Status =
   | { kind: "idle" }
   | { kind: "submitting" }
-  | { kind: "success" }
+  | { kind: "success"; reference?: string }
   | { kind: "unavailable"; mailto: string }
   | { kind: "error"; message: string; mailto?: string };
 
@@ -35,6 +36,16 @@ export function ContactForm({ to }: { to: string }) {
   useEffect(() => {
     startedAt.current = Date.now();
   }, []);
+
+  // Pre-select a category from links such as /contact?enquiry=careers.
+  // Only pre-fills the form; the server still routes by the validated type.
+  useEffect(() => {
+    if (status.kind !== "idle") return;
+    const slug = new URLSearchParams(window.location.search).get("enquiry") ?? "";
+    const type = Object.hasOwn(enquirySlugs, slug) ? enquirySlugs[slug] : undefined;
+    const select = formRef.current?.querySelector<HTMLSelectElement>("select[name='enquiryType']");
+    if (type && select && !select.value) select.value = type;
+  }, [status.kind]);
 
   const describedBy = (field: keyof ContactInput, hint?: string) =>
     [hint, errors[field] ? `${field}-error` : undefined].filter(Boolean).join(" ") || undefined;
@@ -64,10 +75,14 @@ export function ContactForm({ to }: { to: string }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...input, website: raw.hp_trap_field ?? "", startedAt: startedAt.current }),
       });
-      const body = (await res.json().catch(() => ({}))) as { code?: string; errors?: ContactErrors };
+      const body = (await res.json().catch(() => ({}))) as {
+        code?: string;
+        errors?: ContactErrors;
+        reference?: string;
+      };
 
       if (res.ok) {
-        setStatus({ kind: "success" });
+        setStatus({ kind: "success", reference: typeof body.reference === "string" ? body.reference : undefined });
         form.reset();
         return;
       }
@@ -106,9 +121,21 @@ export function ContactForm({ to }: { to: string }) {
     return (
       <div role="status" className="rounded-sm border border-emerald-700/30 bg-emerald-700/5 p-8">
         <CheckCircle2 aria-hidden className="size-8 text-emerald-700" />
-        <h3 className="mt-4 font-serif text-2xl font-semibold text-navy-900">Thank you — your message has been sent</h3>
+        <h3 className="mt-4 font-serif text-2xl font-semibold text-navy-900">
+          Thank you — your enquiry has been submitted
+        </h3>
+        {status.reference && (
+          <p className="mt-4 text-base text-navy-900">
+            Your reference number is{" "}
+            <strong className="inline-block rounded-sm bg-surface px-2 py-0.5 font-mono tracking-wide whitespace-nowrap ring-1 ring-line select-all">
+              {status.reference}
+            </strong>
+          </p>
+        )}
         <p className="mt-3 text-base leading-relaxed text-slate">
-          A member of our team will review your enquiry and respond to the email address you provided.
+          Our team will review your enquiry and respond to the email address you provided.
+          {status.reference &&
+            " A confirmation has been sent to that address; please check your spam folder if it does not arrive. Quote your reference in any correspondence."}
         </p>
         <button
           type="button"
