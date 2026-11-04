@@ -1,0 +1,11 @@
+{
+  "name": "minimatch-v3-compat",
+  "version": "11.0.4-v3compat.1",
+  "description": "Development-only compatibility shim: exposes the patched minimatch 11.0.4 (installed at the project root as the alias \"minimatch-11\") through the minimatch 3.x CommonJS API used by ESLint and its plugins. See README.md.",
+  "private": true,
+  "license": "ISC",
+  "main": "index.js",
+  "engines": {
+    "node": "20 || >=22"
+  }
+}
