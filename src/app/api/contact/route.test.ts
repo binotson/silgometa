@@ -165,6 +165,22 @@ describe("POST /api/contact Nodemailer hardening (GHSA-2x7j-588g-ccc2, GHSA-v53p
   });
 });
 
+describe("POST /api/contact spam-drop diagnostics", () => {
+  it.each([
+    ["honeypot_filled", { website: "https://autofilled.example" }],
+    ["missing_start_time", { startedAt: undefined }],
+    ["submitted_too_fast", { startedAt: Date.now() }],
+  ])("logs %s (without personal data) and sends nothing", async (reason, overrides) => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const res = await POST(request(valid(overrides)));
+    expect(res.status).toBe(200);
+    expect(sendMailMock).not.toHaveBeenCalled();
+    expect(warn).toHaveBeenCalledWith("Contact form submission dropped as spam:", reason);
+    expect(JSON.stringify(warn.mock.calls)).not.toMatch(/Amina|example\.com|Commercial Paper/);
+    warn.mockRestore();
+  });
+});
+
 describe("POST /api/contact protections", () => {
   it("silently drops honeypot submissions", async () => {
     const res = await POST(request(valid({ website: "https://spam.test" })));

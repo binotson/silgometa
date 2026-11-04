@@ -62,7 +62,7 @@ export function ContactForm({ to }: { to: string }) {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...input, website: raw.website ?? "", startedAt: startedAt.current }),
+        body: JSON.stringify({ ...input, website: raw.hp_trap_field ?? "", startedAt: startedAt.current }),
       });
       const body = (await res.json().catch(() => ({}))) as { code?: string; errors?: ContactErrors };
 
@@ -141,11 +141,21 @@ export function ContactForm({ to }: { to: string }) {
         )}
       </div>
 
-      {/* Honeypot: hidden from people and assistive tech, often filled by bots. */}
+      {/* Honeypot: hidden from people and assistive tech, often filled by bots.
+          Deliberately non-semantic name and label so browser and password-manager
+          autofill (which targets names like "website" or "url") leave it empty. */}
       <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label>
-          Website
-          <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+          Leave this field empty
+          <input
+            type="text"
+            name="hp_trap_field"
+            tabIndex={-1}
+            autoComplete="off"
+            data-1p-ignore=""
+            data-lpignore="true"
+            data-form-type="other"
+          />
         </label>
       </div>
 

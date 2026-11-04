@@ -69,9 +69,18 @@ export async function POST(request: Request) {
   // Spam traps: a hidden honeypot field and a minimum time to complete the form.
   // A missing or invalid start time is treated as automated.
   const startedAt = Number(raw.startedAt);
-  const tooFast = !Number.isFinite(startedAt) || startedAt <= 0 || Date.now() - startedAt < MIN_FILL_MS;
-  if ((typeof raw.website === "string" && raw.website.length > 0) || tooFast) {
-    // Respond as accepted so bots get no signal, but send nothing.
+  const dropReason =
+    typeof raw.website === "string" && raw.website.length > 0
+      ? "honeypot_filled"
+      : !Number.isFinite(startedAt) || startedAt <= 0
+        ? "missing_start_time"
+        : Date.now() - startedAt < MIN_FILL_MS
+          ? "submitted_too_fast"
+          : null;
+  if (dropReason) {
+    // Respond as accepted so bots get no signal, but send nothing. The reason
+    // is logged (no personal data) so genuine visitors being dropped can be diagnosed.
+    console.warn("Contact form submission dropped as spam:", dropReason);
     return json(200, { ok: true });
   }
 
