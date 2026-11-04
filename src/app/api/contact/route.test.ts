@@ -133,7 +133,7 @@ describe("POST /api/contact Nodemailer hardening (GHSA-2x7j-588g-ccc2, GHSA-v53p
     expect((await POST(request(valid()))).status).toBe(200);
     expect(transportCalls.length).toBeGreaterThan(0);
     const [options, defaults] = transportCalls.at(-1)!;
-    expect(options).toMatchObject({ disableFileAccess: true, disableUrlAccess: true });
+    expect(options).toMatchObject({ disableFileAccess: true, disableUrlAccess: true, name: "silgometa.com.ng" });
     expect(defaults).toMatchObject({ disableFileAccess: true, disableUrlAccess: true });
   });
 

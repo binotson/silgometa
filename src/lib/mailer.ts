@@ -13,7 +13,11 @@ export type SmtpConfig = {
   user: string;
   pass: string;
   from: string;
+  /** Name announced in the SMTP EHLO greeting. */
+  ehloName: string;
 };
+
+const hostnamePattern = /^(?=.{1,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/i;
 
 /** Reads SMTP settings. Returns null when delivery is not configured. */
 export function readSmtpConfig(env: Record<string, string | undefined> = process.env): SmtpConfig | null {
@@ -28,13 +32,25 @@ export function readSmtpConfig(env: Record<string, string | undefined> = process
 
   // Hostinger only accepts mail whose From address is the authenticated mailbox.
   const from = env.CONTACT_FROM_EMAIL?.trim() || user;
-  return { host, port, secure, user, pass, from };
+
+  // Without this, Nodemailer greets the SMTP server as "[127.0.0.1]" when the
+  // machine has no fully-qualified hostname, which spam filters penalise. Use
+  // SMTP_EHLO_NAME if set, otherwise the sender's domain (e.g. silgometa.com.ng).
+  const fromDomain = from.split("@")[1]?.trim().toLowerCase() ?? "";
+  const ehloCandidate = env.SMTP_EHLO_NAME?.trim().toLowerCase() || fromDomain;
+  const ehloName = hostnamePattern.test(ehloCandidate)
+    ? ehloCandidate
+    : hostnamePattern.test(fromDomain)
+      ? fromDomain
+      : "localhost";
+
+  return { host, port, secure, user, pass, from, ehloName };
 }
 
 let cached: { key: string; transporter: Transporter } | undefined;
 
 function transporterFor(config: SmtpConfig) {
-  const key = [config.host, config.port, config.secure, config.user, config.pass].join("\u0000");
+  const key = [config.host, config.port, config.secure, config.user, config.pass, config.ehloName].join("\u0000");
   if (cached?.key !== key) {
     cached = {
       key,
@@ -43,6 +59,7 @@ function transporterFor(config: SmtpConfig) {
           host: config.host,
           port: config.port,
           secure: config.secure,
+          name: config.ehloName,
           auth: { user: config.user, pass: config.pass },
           connectionTimeout: 10_000,
           greetingTimeout: 10_000,

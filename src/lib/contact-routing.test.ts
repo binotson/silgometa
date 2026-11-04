@@ -51,7 +51,21 @@ describe("readSmtpConfig", () => {
       user: "infor@silgometa.com.ng",
       pass: "test-only",
       from: "infor@silgometa.com.ng",
+      ehloName: "silgometa.com.ng",
     });
+  });
+
+  it("greets the SMTP server with the sender's domain, not [127.0.0.1]", () => {
+    expect(readSmtpConfig(base)?.ehloName).toBe("silgometa.com.ng");
+    expect(readSmtpConfig({ ...base, SMTP_EHLO_NAME: "mail.silgometa.com.ng" })?.ehloName).toBe(
+      "mail.silgometa.com.ng",
+    );
+  });
+
+  it("ignores an invalid or injected EHLO name", () => {
+    for (const bad of ["bad name", "x\r\nRCPT TO:<x@y.z>", "[127.0.0.1]", "-bad.example"]) {
+      expect(readSmtpConfig({ ...base, SMTP_EHLO_NAME: bad })?.ehloName).toBe("silgometa.com.ng");
+    }
   });
 
   it("is not configured without host, user or password", () => {
